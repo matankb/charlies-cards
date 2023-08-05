@@ -17,7 +17,7 @@ async function createAccountId() {
   return id;
 }
 
-async function getAccountId() {
+export async function getAccountId() {
   const storedId = await AsyncStorage.getItem(StorageKey.ACCOUNT_ID);
 
   if (storedId) {
