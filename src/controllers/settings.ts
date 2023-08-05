@@ -7,9 +7,11 @@ enum StorageKey {
     CREDIT_CARD = "credit-card",
 
     /**
-     * The upper limit to attempt to refill the card to when refilling. This limit will not be exceeded.
+     * The targetted upper limit to attempt to refill the card to when refilling. When refilling, the smallest value that will take the
+     * Charlie Card over this value will be added. If a card is at $20 with a $40 limit, $25 will be added. The available values to add
+     * to a card online are $5, $10, $20, $25, $50.
      */
-    REFILL_LIMIT = "refill-limit",
+    REFILL_TARGET = "refill-target",
 }
 
 export interface CreditCard {
@@ -28,9 +30,9 @@ export async function setCreditCard(card: CreditCard) {
 }
 
 export async function getRefillLimit() {
-    return AsyncStorage.getItem(StorageKey.REFILL_LIMIT);
+    return AsyncStorage.getItem(StorageKey.REFILL_TARGET);
 }
 
 export async function setRefillLimit(limit: number) {
-  return AsyncStorage.setItem(StorageKey.REFILL_LIMIT, limit.toString());
+  return AsyncStorage.setItem(StorageKey.REFILL_TARGET, limit.toString());
 }
