@@ -11,23 +11,18 @@ enum StorageKey {
     CREDIT_CARD = "credit-card",
 
     /**
-     * The threshold below which the app attempts to refill the credit card.
-     */
-    REFILL_THRESHOLD = "refill-threshold",
-
-    /**
      * The upper limit to attempt to refill the card to when refilling. This limit will not be exceeded.
      */
     REFILL_LIMIT = "refill-limit",
 }
 
 /**
- * A model for a credit card to be used internally by this application.
+ * An interface for a credit card to be used internally by this application.
  */
 export interface CreditCard {
   cardNumber: string;
   cardHolder: string;
-  expiry: string;
+  expiration: string;
   cvv: string;
 }
 
@@ -44,21 +39,6 @@ export async function getCreditCard() {
  */
 export async function setCreditCard(card: CreditCard) {
   return AsyncStorage.setItem(StorageKey.CREDIT_CARD, JSON.stringify(card));
-}
-
-/**
- * @returns the refill threshold value held in async storage.
- */
-export async function getRefillThreshold() {
-    return AsyncStorage.getItem(StorageKey.REFILL_THRESHOLD);
-}
-
-/**
- * Handles setting/updating of the refill threshold value.
- * @param threshold the new threshold to store in async storage.
- */
-export async function setRefillThreshold(threshold: number) {
-  return AsyncStorage.setItem(StorageKey.REFILL_THRESHOLD, threshold.toString());
 }
 
 /**
