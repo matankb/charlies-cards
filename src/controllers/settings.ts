@@ -1,9 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-/**
- * An enum of the object keys for the various objects stored in async storage.
- * @see AsyncStorage
- */
 enum StorageKey {
     /**
      * The active credit card being used for billing during automatic refills.
