@@ -54,7 +54,7 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({ control }) => {
         change your password before entering it here.
       </Text>
       <Text className="text-gray-400 mt-8">
-        If you don’t have a MyCharlie account, click here to create one.
+        If you don't have a MyCharlie account, click here to create one.
       </Text>
     </View>
   )
