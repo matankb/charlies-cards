@@ -1,15 +1,19 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./App.tsx", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./App.tsx', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    fontFamily: {
-      'Lato': ['"Lato"', 'Lato']
+    extend: {
+      fontFamily: {
+        Lato: ['Lato_400Regular'],
+        sans: ['Lato_400Regular', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        blue: '#155C96',
+      },
     },
-    colors: {
-      blue: '#155C96'
-    },
-    extend: {},
   },
   plugins: [],
 }
-
