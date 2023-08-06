@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getCreditCard } from '../controllers/settings'
-import * as SplashScreen from 'expo-splash-screen'
 
-export default function useRegistered(): [boolean, boolean, () => void] {
-  const [appIsReady, setAppIsReady] = useState(false)
+export default function useRegistered(): [
+  isRegistered: boolean,
+  loading: boolean,
+] {
   const [isRegistered, setIsRegistered] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function prepare() {
@@ -13,17 +15,14 @@ export default function useRegistered(): [boolean, boolean, () => void] {
         setIsRegistered(true)
       }
 
-      setAppIsReady(true)
+      setLoading(false)
     }
 
-    prepare()
+    prepare().catch((e) => {
+      console.error(e)
+      alert('An unexpected error occurred. Please try again later.')
+    })
   }, [])
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync()
-    }
-  }, [appIsReady])
-
-  return [appIsReady, isRegistered, onLayoutRootView]
+  return [isRegistered, loading]
 }
