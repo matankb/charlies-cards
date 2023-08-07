@@ -12,6 +12,11 @@ enum StorageKey {
    * to a card online are $5, $10, $20, $25, $50.
    */
   REFILL_TARGET = 'refill-target',
+
+  /**
+   * A boolean value indicating if the user has registered for the app yet.
+   */
+  IS_REGISTERED = 'is-registered',
 }
 
 export interface CreditCard {
@@ -35,4 +40,17 @@ export async function getRefillLimit() {
 
 export async function setRefillLimit(limit: number) {
   return AsyncStorage.setItem(StorageKey.REFILL_TARGET, limit.toString())
+}
+
+export async function getIsRegistered() {
+  const value = await AsyncStorage.getItem(StorageKey.IS_REGISTERED)
+  return value || false
+}
+
+export async function setIsRegistered(isRegistered: boolean) {
+  return AsyncStorage.setItem(StorageKey.IS_REGISTERED, isRegistered.toString())
+}
+
+export async function clear() {
+  AsyncStorage.clear()
 }

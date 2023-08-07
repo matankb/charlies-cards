@@ -20,30 +20,21 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({ control }) => {
   })
 
   return (
-    <View className="p-6 items-center">
-      <Text className="text-4xl">Register</Text>
-      <View
-        className="my-4"
-        style={{
-          borderBottomColor: '#D2D2D2',
-          borderBottomWidth: 1,
-          width: '90%',
-        }}
-      />
+    <View className="px-6 items-center">
       <Text className="text-gray-400">Welcome!</Text>
       <Text className="text-gray-400">Enter your MyCharlie credentials.</Text>
 
       <Text className="mt-12 text-2xl mb-1">MyCharlie Username:</Text>
       <TextInput
-        className="bg-stone-200 rounded-2xl px-4 py-2 w-full"
-        placeholder="Charlie"
+        className="border bg-stone-200 border-gray-300 rounded-lg w-full p-2.5"
+        placeholder="charlie@card.com"
         value={userNameField.field.value}
         onChangeText={userNameField.field.onChange}
       ></TextInput>
 
       <Text className="mt-6 text-2xl mb-1">MyCharlie Password:</Text>
       <TextInput
-        className="bg-stone-200 rounded-2xl px-4 py-2 w-full"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         secureTextEntry={true}
         value={passwordField.field.value}
         onChangeText={passwordField.field.onChange}

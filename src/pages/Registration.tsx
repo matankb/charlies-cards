@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { Pressable, Text, View } from 'react-native'
 import { CharlieAccount } from '../components/registration/CharlieAccount'
@@ -9,7 +9,13 @@ interface RegistrationStep {
   component: React.ReactElement
 }
 
-export const RegistrationPage = () => {
+interface RegistrationPageProps {
+  setRegisteredComplete: () => void
+}
+
+export const RegistrationPage: FC<RegistrationPageProps> = ({
+  setRegisteredComplete,
+}) => {
   const [index, setIndex] = useState(0)
   const { control, handleSubmit } = useForm()
 
@@ -24,19 +30,21 @@ export const RegistrationPage = () => {
     },
   ]
 
-  const press = () => {
-    setIndex(index + 1)
-
-    if (index === pages.length) {
+  const advancePage = () => {
+    if (index === pages.length - 1) {
+      setRegisteredComplete()
+      return
     }
+
+    setIndex(index + 1)
   }
 
   return (
-    <View className="flex p-4 justify-around">
+    <View className="flex p-4 flex-col h-full justify-between">
       {pages[index].component}
       <Pressable
         className="bg-blue w-full rounded-lg p-2"
-        onPress={handleSubmit(press)}
+        onPress={handleSubmit(advancePage)}
       >
         <Text className="text-white text-center">
           {pages[index].submitButtonText}
