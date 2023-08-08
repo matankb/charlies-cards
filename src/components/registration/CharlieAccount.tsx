@@ -1,22 +1,39 @@
 import { View, Text, TextInput } from 'react-native'
 import { FC } from 'react'
-import { Control, FieldValues, useController } from 'react-hook-form'
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  useController,
+} from 'react-hook-form'
 
 interface CharlieAccountProps {
   control: Control<FieldValues, unknown>
+  errors: FieldErrors<FieldValues>
 }
 
-export const CharlieAccount: FC<CharlieAccountProps> = ({ control }) => {
+export const CharlieAccount: FC<CharlieAccountProps> = ({
+  control,
+  errors,
+}) => {
   const userNameField = useController({
     control,
     defaultValue: '',
     name: 'charlieUsername',
+    rules: {
+      required: {
+        value: true,
+        message: 'You must enter a valid email as your MyCharlie username',
+      },
+      validate: (s: string) => s.includes('@'),
+    },
   })
 
   const passwordField = useController({
     control,
     defaultValue: '',
     name: 'charliePassword',
+    rules: { required: true },
   })
 
   return (
@@ -26,7 +43,7 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({ control }) => {
 
       <Text className="mt-12 text-2xl mb-1">MyCharlie Username:</Text>
       <TextInput
-        className="border bg-stone-200 border-gray-300 rounded-lg w-full p-2.5"
+        className="border bg-amber-500 border-gray-300 rounded-lg w-full p-2.5"
         placeholder="charlie@card.com"
         value={userNameField.field.value}
         onChangeText={userNameField.field.onChange}
@@ -47,6 +64,7 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({ control }) => {
       <Text className="text-gray-400 mt-8">
         If you don’t have a MyCharlie account, click here to create one.
       </Text>
+      <Text>{errors.root.message}</Text>
     </View>
   )
 }
