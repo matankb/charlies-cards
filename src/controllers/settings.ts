@@ -19,7 +19,7 @@ enum StorageKey {
   IS_REGISTERED = 'is-registered',
 }
 
-export interface CreditCard {
+export interface CreditCardModel {
   cardNumber: string
   cardHolder: string
   expiration: string
@@ -30,7 +30,7 @@ export async function getCreditCard() {
   return JSON.parse(await AsyncStorage.getItem(StorageKey.CREDIT_CARD))
 }
 
-export async function setCreditCard(card: CreditCard) {
+export async function setCreditCard(card: CreditCardModel) {
   return AsyncStorage.setItem(StorageKey.CREDIT_CARD, JSON.stringify(card))
 }
 

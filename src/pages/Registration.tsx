@@ -1,15 +1,11 @@
 import React, { useState, FC } from 'react'
-import { useForm } from 'react-hook-form'
-import { Pressable, Text, View } from 'react-native'
+import { View } from 'react-native'
 import { CharlieAccount } from '../components/registration/CharlieAccount'
 import { RegistrationSuccess } from '../components/registration/RegistrationSuccess'
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { CharlieCard } from '../components/registration/CharlieCard'
-
-interface RegistrationStep {
-  submitButtonText: string
-  component: React.ReactElement
-}
+import { CreditCard } from '../components/registration/CreditCard'
+import { setMyCharlieCredentials } from '../controllers/account'
 
 interface RegistrationPageProps {
   setRegisteredComplete: () => void
@@ -19,26 +15,19 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   setRegisteredComplete,
 }) => {
   const [index, setIndex] = useState(0)
-  const { control, handleSubmit } = useForm()
 
-  const pages: RegistrationStep[] = [
-    {
-      submitButtonText: 'Submit',
-      component: <CharlieAccount control={control} />,
-    },
-    {
-      submitButtonText: 'Select Card',
-      component: <CharlieCard control={control} />,
-    },
-    {
-      submitButtonText: 'Open App',
-      component: <RegistrationSuccess />,
-    },
-  ]
+  // page 1 state (charlie account)
+  const [userName, setUserName] = useState('')
+  const [userError, setUserError] = useState(undefined)
+  const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState(undefined)
+
+  // page 2 state (charlie card)
+  const [charlieCard, setCharlieCard] = useState('')
+  const [charlieCardError, setCharlieCardError] = useState(undefined)
 
   const handleNextPage = () => {
     if (index === pages.length - 1) {
-      setRegisteredComplete()
       return
     }
 
@@ -51,40 +40,45 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
     setIndex(index - 1)
   }
 
-  const renderBackButton = () => {
-    if (index === 0) return null
-
-    return (
-      <Pressable
-        className="bg-blue w-full rounded-lg p-2"
-        onPress={handlePrevPage}
-      >
-        <Text className="text-white text-center">Back</Text>
-      </Pressable>
-    )
+  const handleFormSubmit = () => {
+    setMyCharlieCredentials(userName, password, charlieCard)
+    setRegisteredComplete()
   }
 
+  const pages: React.ReactElement[] = [
+    <CharlieAccount
+      onSubmit={handleNextPage}
+      userName={userName}
+      setUserName={setUserName}
+      userError={userError}
+      setUserError={setUserError}
+      password={password}
+      setPassword={setPassword}
+      passwordError={passwordError}
+      setPasswordError={setPasswordError}
+    />,
+    <CharlieCard
+      onSubmit={handleNextPage}
+      card={charlieCard}
+      setCard={setCharlieCard}
+      error={charlieCardError}
+      setError={setCharlieCardError}
+      handlePrevPage={handlePrevPage}
+    />,
+    <CreditCard onSubmit={handleNextPage} handlePrevPage={handlePrevPage} />,
+    <RegistrationSuccess handleSubmit={handleFormSubmit} />,
+  ]
+
   return (
-    <View className="flex p-4 flex-col h-full justify-between">
-      {renderBackButton()}
-      {pages[index].component}
-      <View className="flex w-full">
-        <View className="flex flex-row justify-center">
-          <PaginationDot
-            activeDotColor={'green'}
-            curPage={index}
-            maxPage={pages.length}
-            sizeRatio={1.25}
-          />
-        </View>
-        <Pressable
-          className="bg-blue rounded-lg p-2 mt-4"
-          onPress={handleSubmit(handleNextPage)}
-        >
-          <Text className="text-white text-center" style={{ color: 'white' }}>
-            {pages[index].submitButtonText}
-          </Text>
-        </Pressable>
+    <View className="flex py-6 px-4 flex-col h-full justify-between">
+      {pages[index]}
+      <View className="flex-row justify-center">
+        <PaginationDot
+          activeDotColor={'green'}
+          curPage={index}
+          maxPage={pages.length}
+          sizeRatio={1.25}
+        />
       </View>
     </View>
   )
