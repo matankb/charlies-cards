@@ -18,7 +18,10 @@ export const StackNavigator: FC<StackNavigatorProps> = ({
   return (
     <>
       {isRegistered ? (
-        <Stack.Navigator initialRouteName={ScreenName.HOME}>
+        <Stack.Navigator
+          initialRouteName={ScreenName.HOME}
+          screenOptions={{ headerShown: false }}
+        >
           <Stack.Screen name={ScreenName.HOME} component={HomePage} />
         </Stack.Navigator>
       ) : (

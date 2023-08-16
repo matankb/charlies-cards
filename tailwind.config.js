@@ -2,9 +2,7 @@
 module.exports = {
   content: ['./App.tsx', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    fontFamily: {
-      Lato: ['"Lato"', 'Lato'],
-    },
+    fontFamily: {},
     colors: {
       blue: '#155C96',
       white: '#FFF',
