@@ -20,7 +20,10 @@ export default function useRegistered(): [
       setAppIsReady(true)
     }
 
-    prepare()
+    prepare().catch((e) => {
+      console.error(e)
+      alert('An unexpected error occurred. Please try again later.')
+    })
   }, [])
 
   const onLayoutRootView = useCallback(async () => {
