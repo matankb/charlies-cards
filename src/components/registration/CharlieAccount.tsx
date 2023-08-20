@@ -90,7 +90,9 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({
           If you don’t have a MyCharlie account, click here to create one.
         </Text>
       </View>
-      <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      <View style={{ marginBottom: 10 }}>
+        <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      </View>
     </View>
   )
 }

@@ -129,7 +129,9 @@ export const CreditCard: FC<CreditCardProps> = ({
           know your credit card information.
         </Text>
       </View>
-      <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      <View style={{ marginBottom: 10 }}>
+        <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      </View>
     </View>
   )
 }

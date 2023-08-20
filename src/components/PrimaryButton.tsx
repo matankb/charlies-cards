@@ -8,11 +8,11 @@ interface SubmitButtonProps {
 
 export const PrimaryButton: FC<SubmitButtonProps> = ({ onSubmit, text }) => {
   return (
-    <Pressable
-      className="w-full bg-blue rounded-lg p-2 mt-4"
-      onPress={onSubmit}
-    >
-      <Text className="text-white text-center" style={{ color: 'white' }}>
+    <Pressable className="w-full bg-blue rounded-lg p-2" onPress={onSubmit}>
+      <Text
+        className="text-white text-center"
+        style={{ color: 'white', fontFamily: 'LatoBold', fontSize: 22 }}
+      >
         {text}
       </Text>
     </Pressable>

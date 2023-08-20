@@ -58,7 +58,9 @@ export const CharlieCard: FC<CharlieCardProps> = ({
           error={error}
         />
       </View>
-      <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      <View style={{ marginBottom: 10 }}>
+        <PrimaryButton onSubmit={trySubmit} text="Submit" />
+      </View>
     </View>
   )
 }
