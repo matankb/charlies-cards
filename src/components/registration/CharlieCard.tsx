@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import { FC } from 'react'
-import { SubmitButton } from '../form/SubmitButton'
+import { PrimaryButton } from '../PrimaryButton'
 import { FormTextInput } from '../form/FormTextInput'
 import { RegisterFlowTitle } from '../form/RegisterFlowTitle'
 
@@ -58,7 +58,7 @@ export const CharlieCard: FC<CharlieCardProps> = ({
           error={error}
         />
       </View>
-      <SubmitButton onSubmit={trySubmit} text="Submit" />
+      <PrimaryButton onSubmit={trySubmit} text="Submit" />
     </View>
   )
 }

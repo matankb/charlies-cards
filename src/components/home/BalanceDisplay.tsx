@@ -15,7 +15,7 @@ export const BalanceDisplay = () => {
         </Text>
         <View
           className="flex flex-row items-start"
-          style={{ gap: 6, paddingBottom: 44 }}
+          style={{ gap: 6, paddingBottom: 25 }}
         >
           <Text
             style={{ fontFamily: 'LatoRegular', fontSize: 24, color: 'black' }}

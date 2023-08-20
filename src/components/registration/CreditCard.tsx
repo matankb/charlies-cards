@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import { FC, useState } from 'react'
-import { SubmitButton } from '../form/SubmitButton'
+import { PrimaryButton } from '../PrimaryButton'
 import { FormTextInput } from '../form/FormTextInput'
 import { CreditCardModel } from '../../controllers/settings'
 import { RegisterFlowTitle } from '../form/RegisterFlowTitle'
@@ -129,7 +129,7 @@ export const CreditCard: FC<CreditCardProps> = ({
           know your credit card information.
         </Text>
       </View>
-      <SubmitButton onSubmit={trySubmit} text="Submit" />
+      <PrimaryButton onSubmit={trySubmit} text="Submit" />
     </View>
   )
 }

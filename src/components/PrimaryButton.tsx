@@ -6,7 +6,7 @@ interface SubmitButtonProps {
   text: string
 }
 
-export const SubmitButton: FC<SubmitButtonProps> = ({ onSubmit, text }) => {
+export const PrimaryButton: FC<SubmitButtonProps> = ({ onSubmit, text }) => {
   return (
     <Pressable
       className="w-full bg-blue rounded-lg p-2 mt-4"

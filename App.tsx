@@ -28,8 +28,10 @@ export default function App() {
             setRegisteredComplete={setRegisteredComplete}
           />
         </NavigationContainer>
-        <Button title="Clear store" onPress={clear} />
-        {/* Above line is temporary - allows dev deletion of async storage */}
+        <View style={{ position: 'absolute', bottom: 0 }}>
+          <Button title="Clear store" onPress={clear} />
+        </View>
+        {/* Above view and button are temporary - allows dev deletion of async storage */}
       </View>
       <StatusBar style="auto" />
     </>
