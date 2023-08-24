@@ -8,9 +8,36 @@ import { PrimaryButton } from '../PrimaryButton'
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
+  cardName: string
+  currentAmount: number
+  refillTransactions: number[]
 }
 
-export const RefillModal: FC<RefillModalPropsimport> = ({ handleDismiss }) => {
+export const RefillModal: FC<RefillModalPropsimport> = ({
+  handleDismiss,
+  cardName,
+  currentAmount,
+  refillTransactions,
+}) => {
+  const calculatedAddition = () => {
+    if (refillTransactions.length === 0) return currentAmount
+
+    return refillTransactions.reduce((partialSum, a) => partialSum + a, 0)
+  }
+
+  const telegraphedTransactions = () => {
+    const out = refillTransactions
+      .slice(0, -1)
+      .map((x) => '$' + x.toString())
+      .join(', ')
+
+    return out + ` and then $${refillTransactions.findLast(() => true)}`
+  }
+
+  const sendRefill = () => {
+    console.log('send refill') // TODO: connect to actual refill
+  }
+
   return (
     <View
       style={{
@@ -42,19 +69,30 @@ export const RefillModal: FC<RefillModalPropsimport> = ({ handleDismiss }) => {
         <AntDesign name="close" size={16} color="gray" />
       </Pressable>
       <Text style={{ fontFamily: 'LatoSemibold', fontSize: 16 }}>
-        Refill Jacob's Card
+        Refill {cardName}
       </Text>
       <View className="flex flex-row justify-between align-center pt-5">
-        <MoneyDisplay amount={20.32} dollarColor="#B8B8B8" shrinkCents />
+        <MoneyDisplay
+          amount={currentAmount}
+          dollarColor="#B8B8B8"
+          shrinkCents
+        />
         <FontAwesome
           name="long-arrow-right"
           size={32}
           color="#B8B8B8"
           style={{ paddingHorizontal: 12, paddingVertical: 16 }}
         />
-        <MoneyDisplay amount={50.32} centColor="black" shrinkCents />
+        <MoneyDisplay
+          amount={currentAmount + calculatedAddition()}
+          centColor="black"
+          shrinkCents
+        />
       </View>
-      <RefillPullableDisplay />
+      <RefillPullableDisplay
+        currentAmount={currentAmount}
+        addedAmount={calculatedAddition()}
+      />
       <View
         style={{
           position: 'absolute',
@@ -71,11 +109,11 @@ export const RefillModal: FC<RefillModalPropsimport> = ({ handleDismiss }) => {
             paddingBottom: 8,
           }}
         >
-          You will be billed ${25} and then ${5}
+          You will be billed {telegraphedTransactions()}
         </Text>
         <PrimaryButton
-          text={`Pay $${30}`}
-          onSubmit={() => console.log('pay money')}
+          text={`Pay $${calculatedAddition()}`}
+          onSubmit={sendRefill}
           buttonColor="#428A4E"
           pressedButtonColor="#336B3C"
         />

@@ -1,7 +1,16 @@
 import { View, Text } from 'react-native'
 import { MoneyDisplay } from './MoneyDisplay'
+import { FC } from 'react'
 
-export const BalanceDisplay = () => {
+interface BalanceDisplayProps {
+  cardName: string
+  cardNumber: string
+}
+
+export const BalanceDisplay: FC<BalanceDisplayProps> = ({
+  cardName,
+  cardNumber,
+}) => {
   return (
     <View
       className="pt-5 rounded-3xl bg-white flex self-center"
@@ -33,12 +42,12 @@ export const BalanceDisplay = () => {
             fontSize: 16,
           }}
         >
-          Jacob's Card
+          {cardName}
         </Text>
       </View>
       <View className="flex flex-row items-center" style={{ paddingLeft: 30 }}>
         <Text style={{ fontFamily: 'LatoRegular', fontSize: 12 }}>
-          05-038471732832
+          {cardNumber}
         </Text>
       </View>
     </View>

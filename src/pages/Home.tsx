@@ -16,7 +16,8 @@ import { RefillModal } from '../components/home/RefillModal'
 export const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
 
-  const fakeData = [
+  // TODO: extract from actual sources
+  const history = [
     {
       id: 2,
       amount: 50,
@@ -33,6 +34,10 @@ export const HomePage = () => {
       date: new Date(),
     },
   ]
+  const cardName = "Jacob's card"
+  const cardNumber = '05-038471732832'
+  const currentAmount = 20.32
+  const nextTransactions = [25, 5]
 
   const showRefill = () => {
     setShowModal(true)
@@ -83,7 +88,7 @@ export const HomePage = () => {
         }}
         className="w-full"
       >
-        <BalanceDisplay />
+        <BalanceDisplay cardName={cardName} cardNumber={cardNumber} />
       </View>
       <ScrollView
         style={{
@@ -92,10 +97,10 @@ export const HomePage = () => {
           alignSelf: 'center',
         }}
       >
-        {fakeData.map((transaction, index) => (
+        {history.map((transaction, index) => (
           <React.Fragment key={transaction.id}>
             <TransactionDisplay transaction={transaction} />
-            {index < fakeData.length - 1 && (
+            {index < history.length - 1 && (
               <View
                 className="h-px my-4 mr-2"
                 style={{
@@ -138,7 +143,12 @@ export const HomePage = () => {
               }}
             />
           </TouchableWithoutFeedback>
-          <RefillModal handleDismiss={handleDismiss} />
+          <RefillModal
+            handleDismiss={handleDismiss}
+            cardName={cardName}
+            currentAmount={currentAmount}
+            refillTransactions={nextTransactions}
+          />
         </Modal>
       )}
     </>

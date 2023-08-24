@@ -1,9 +1,15 @@
 import { FC } from 'react'
 import { View, Text } from 'react-native'
 
-interface RefillPullableDisplayProps {}
+interface RefillPullableDisplayProps {
+  currentAmount: number
+  addedAmount: number
+}
 
-export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({}) => {
+export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
+  currentAmount,
+  addedAmount,
+}) => {
   return (
     <View
       className="flex flex-row justify-start w-full"
@@ -19,9 +25,9 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({}) => {
       >
         <Text
           numberOfLines={1}
-          style={{ color: 'white', fontFamily: 'Lato', fontSize: 16 }}
+          style={{ color: 'white', fontFamily: 'LatoSemibold', fontSize: 16 }}
         >
-          $20.32
+          ${currentAmount}
         </Text>
       </View>
       <View
@@ -30,9 +36,9 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({}) => {
       >
         <Text
           numberOfLines={1}
-          style={{ color: 'white', fontFamily: 'Lato', fontSize: 16 }}
+          style={{ color: 'white', fontFamily: 'LatoSemibold', fontSize: 16 }}
         >
-          + $30
+          + ${addedAmount}
         </Text>
       </View>
     </View>
