@@ -5,11 +5,13 @@ import { FC } from 'react'
 interface BalanceDisplayProps {
   cardName: string
   cardNumber: string
+  currentAmount: number
 }
 
 export const BalanceDisplay: FC<BalanceDisplayProps> = ({
   cardName,
   cardNumber,
+  currentAmount,
 }) => {
   return (
     <View
@@ -23,7 +25,7 @@ export const BalanceDisplay: FC<BalanceDisplayProps> = ({
         >
           CURRENT BALANCE
         </Text>
-        <MoneyDisplay amount={20.32} />
+        <MoneyDisplay amount={currentAmount} />
       </View>
       <View
         className="flex flex-row items-center"

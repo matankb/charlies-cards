@@ -88,7 +88,11 @@ export const HomePage = () => {
         }}
         className="w-full"
       >
-        <BalanceDisplay cardName={cardName} cardNumber={cardNumber} />
+        <BalanceDisplay
+          cardName={cardName}
+          cardNumber={cardNumber}
+          currentAmount={currentAmount}
+        />
       </View>
       <ScrollView
         style={{

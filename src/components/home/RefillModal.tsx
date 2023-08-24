@@ -20,12 +20,11 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   refillTransactions,
 }) => {
   const calculatedAddition = () => {
-    if (refillTransactions.length === 0) return currentAmount
-
     return refillTransactions.reduce((partialSum, a) => partialSum + a, 0)
   }
 
   const telegraphedTransactions = () => {
+    if (refillTransactions.length === 0) return '$0'
     const out = refillTransactions
       .slice(0, -1)
       .map((x) => '$' + x.toString())
