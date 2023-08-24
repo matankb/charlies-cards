@@ -4,9 +4,16 @@ import { Pressable, Text } from 'react-native'
 interface SubmitButtonProps {
   onSubmit: () => void
   text: string
+  buttonColor?: string
+  pressedButtonColor?: string
 }
 
-export const PrimaryButton: FC<SubmitButtonProps> = ({ onSubmit, text }) => {
+export const PrimaryButton: FC<SubmitButtonProps> = ({
+  onSubmit,
+  text,
+  buttonColor = '#155C96',
+  pressedButtonColor = '#124B7A',
+}) => {
   const [pressed, setPressed] = useState(false)
 
   return (
@@ -15,7 +22,7 @@ export const PrimaryButton: FC<SubmitButtonProps> = ({ onSubmit, text }) => {
       onPress={onSubmit}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      style={{ backgroundColor: pressed ? '#124B7A' : '#155C96' }}
+      style={{ backgroundColor: pressed ? pressedButtonColor : buttonColor }}
     >
       <Text
         className="text-white text-center"

@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar'
-import { Button, View } from 'react-native'
+import { View } from 'react-native'
 import * as SplashScreen from 'expo-splash-screen'
 import useRegistered from './src/hooks/registered-provider'
 import { NavigationContainer } from '@react-navigation/native'
 import { StackNavigator } from './src/components/navigators/PageProvider'
-import { clear } from './src/controllers/settings'
+// import { clear } from './src/controllers/settings'
 import useAddFonts from './src/hooks/load-fonts'
 
 SplashScreen.preventAutoHideAsync()
@@ -28,9 +28,9 @@ export default function App() {
             setRegisteredComplete={setRegisteredComplete}
           />
         </NavigationContainer>
-        <View style={{ position: 'absolute', bottom: 0 }}>
+        {/* <View style={{ position: 'absolute', bottom: 0 }}>
           <Button title="Clear store" onPress={clear} />
-        </View>
+        </View> */}
         {/* Above view and button are temporary - allows dev deletion of async storage */}
       </View>
       <StatusBar style="auto" />

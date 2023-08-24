@@ -1,4 +1,5 @@
 import { View, Text } from 'react-native'
+import { MoneyDisplay } from './MoneyDisplay'
 
 export const BalanceDisplay = () => {
   return (
@@ -13,33 +14,7 @@ export const BalanceDisplay = () => {
         >
           CURRENT BALANCE
         </Text>
-        <View
-          className="flex flex-row items-start"
-          style={{ gap: 6, paddingBottom: 25 }}
-        >
-          <Text
-            style={{ fontFamily: 'LatoRegular', fontSize: 24, color: 'black' }}
-            className="pt-3"
-          >
-            $
-          </Text>
-          <View className="flex flex-row">
-            <Text
-              style={{ fontFamily: 'LatoBold', fontSize: 56, color: 'black' }}
-            >
-              20
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'LatoBold',
-                fontSize: 56,
-                color: '#B8B8B8',
-              }}
-            >
-              .32
-            </Text>
-          </View>
-        </View>
+        <MoneyDisplay amount={20.32} />
       </View>
       <View
         className="flex flex-row items-center"
