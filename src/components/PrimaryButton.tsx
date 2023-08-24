@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Pressable, Text } from 'react-native'
+import { Pressable, Text, StyleSheet } from 'react-native'
 
 interface SubmitButtonProps {
   onSubmit: () => void
@@ -7,6 +7,10 @@ interface SubmitButtonProps {
   buttonColor?: string
   pressedButtonColor?: string
 }
+
+const styles = StyleSheet.create({
+  text: { color: 'white', fontFamily: 'LatoBold', fontSize: 22 },
+})
 
 export const PrimaryButton: FC<SubmitButtonProps> = ({
   onSubmit,
@@ -24,10 +28,7 @@ export const PrimaryButton: FC<SubmitButtonProps> = ({
       onPressOut={() => setPressed(false)}
       style={{ backgroundColor: pressed ? pressedButtonColor : buttonColor }}
     >
-      <Text
-        className="text-white text-center"
-        style={{ color: 'white', fontFamily: 'LatoBold', fontSize: 22 }}
-      >
+      <Text className="text-white text-center" style={styles.text}>
         {text}
       </Text>
     </Pressable>

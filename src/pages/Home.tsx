@@ -2,6 +2,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -11,7 +12,52 @@ import { BalanceDisplay } from '../components/home/BalanceDisplay'
 import { TransactionDisplay } from '../components/home/TransactionDisplay'
 import { PrimaryButton } from '../components/PrimaryButton'
 import React, { useState } from 'react'
-import { RefillModal } from '../components/home/RefillModal'
+import { RefillModal } from '../components/home/refill/RefillModal'
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
+    opacity: 0.5,
+    zIndex: 2,
+  },
+  walletTitleText: { fontFamily: 'Lato', fontSize: 20, color: 'white' },
+  container: {
+    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    width: '100%',
+    top: 70,
+  },
+  transactionScrollableContainer: {
+    marginTop: 70,
+    width: '90%',
+    alignSelf: 'center',
+  },
+  transactionContainer: {
+    backgroundColor: '#D9D9D9',
+    width: '80%',
+    alignSelf: 'flex-end',
+  },
+  submitButtonContainer: {
+    padding: 16,
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  modalDismissBackground: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+})
 
 export const HomePage = () => {
   const [showModal, setShowModal] = useState(false)
@@ -53,79 +99,37 @@ export const HomePage = () => {
 
   return (
     <>
-      {showModal && (
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'black',
-            opacity: 0.5,
-            zIndex: 2,
-          }}
-        />
-      )}
+      {showModal && <View style={styles.modalBackground} />}
       <View
         className="bg-blue p-7 flex flex-row justify-between"
         style={{ height: '33%' }}
       >
-        <Text style={{ fontFamily: 'Lato', fontSize: 20, color: 'white' }}>
-          Cardlie Wallet
-        </Text>
+        <Text style={styles.walletTitleText}>Cardlie Wallet</Text>
         <Pressable>
           <Entypo name="cog" size={25} color="white" />
         </Pressable>
       </View>
-      <View
-        style={{
-          position: 'absolute',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          left: 0,
-          right: 0,
-          width: '100%',
-          top: 70,
-        }}
-        className="w-full"
-      >
+      <View style={styles.container} className="w-full">
         <BalanceDisplay
           cardName={cardName}
           cardNumber={cardNumber}
           currentAmount={currentAmount}
         />
       </View>
-      <ScrollView
-        style={{
-          marginTop: 70,
-          width: '90%',
-          alignSelf: 'center',
-        }}
-      >
+      <ScrollView style={styles.transactionScrollableContainer}>
         {history.map((transaction, index) => (
           <React.Fragment key={transaction.id}>
             <TransactionDisplay transaction={transaction} />
             {index < history.length - 1 && (
               <View
                 className="h-px my-4 mr-2"
-                style={{
-                  backgroundColor: '#D9D9D9',
-                  width: '80%',
-                  alignSelf: 'flex-end',
-                }}
+                style={styles.transactionContainer}
               ></View>
             )}
           </React.Fragment>
         ))}
       </ScrollView>
-      <View
-        style={{
-          padding: 16,
-          display: 'flex',
-          alignContent: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'white',
-        }}
-      >
+      <View style={styles.submitButtonContainer}>
         <PrimaryButton onSubmit={showRefill} text="Refill" />
       </View>
       {showModal && (
@@ -137,15 +141,7 @@ export const HomePage = () => {
           onDismiss={handleDismiss}
         >
           <TouchableWithoutFeedback onPress={handleDismiss}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-              }}
-            />
+            <View style={styles.modalDismissBackground} />
           </TouchableWithoutFeedback>
           <RefillModal
             handleDismiss={handleDismiss}

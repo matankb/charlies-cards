@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 interface MoneyDisplayProps {
   amount: number
@@ -7,6 +7,19 @@ interface MoneyDisplayProps {
   centColor?: string
   shrinkCents?: boolean
 }
+
+const styles = StyleSheet.create({
+  container: { gap: 6, marginBottom: 25 },
+  dollarSignText: {
+    fontFamily: 'LatoRegular',
+    fontSize: 24,
+  },
+  dollarsText: { fontFamily: 'LatoBold', fontSize: 56 },
+  centsText: {
+    fontFamily: 'LatoBold',
+    paddingBottom: 8,
+  },
+})
 
 export const MoneyDisplay: FC<MoneyDisplayProps> = ({
   amount,
@@ -17,29 +30,25 @@ export const MoneyDisplay: FC<MoneyDisplayProps> = ({
   const [dollars, cents] = amount.toString().split('.')
 
   return (
-    <View
-      className="flex flex-row items-start"
-      style={{ gap: 6, marginBottom: 25 }}
-    >
+    <View className="flex flex-row items-start" style={styles.container}>
       <Text
-        style={{ fontFamily: 'LatoRegular', fontSize: 24, color: dollarColor }}
+        style={[styles.dollarSignText, { color: dollarColor }]}
         className="pt-3"
       >
         $
       </Text>
       <View className={`flex flex-row ${shrinkCents ? 'items-end' : ''}`}>
-        <Text
-          style={{ fontFamily: 'LatoBold', fontSize: 56, color: dollarColor }}
-        >
+        <Text style={[styles.dollarsText, { color: dollarColor }]}>
           {dollars}
         </Text>
         <Text
-          style={{
-            fontFamily: 'LatoBold',
-            fontSize: shrinkCents ? 20 : 56,
-            color: centColor,
-            paddingBottom: 8,
-          }}
+          style={[
+            styles.centsText,
+            {
+              fontSize: shrinkCents ? 20 : 56,
+              color: centColor,
+            },
+          ]}
         >
           .{cents}
         </Text>
