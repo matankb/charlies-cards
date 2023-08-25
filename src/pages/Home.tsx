@@ -11,8 +11,12 @@ import { Entypo } from '@expo/vector-icons'
 import { BalanceDisplay } from '../components/home/BalanceDisplay'
 import { TransactionDisplay } from '../components/home/TransactionDisplay'
 import { PrimaryButton } from '../components/PrimaryButton'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RefillModal } from '../components/home/refill/RefillModal'
+import { Transaction, getTransactionHistory } from '../controllers/card'
+import { CharlieCard, getCardInfo } from '../controllers/account'
+import textLoading from '../../assets/text-loading.json'
+import AnimatedLoader from 'react-native-animated-loader'
 
 const styles = StyleSheet.create({
   modalBackground: {
@@ -60,7 +64,12 @@ const styles = StyleSheet.create({
 })
 
 export const HomePage = () => {
+  const [loading, setLoading] = useState(true) // TODO: make work
   const [showModal, setShowModal] = useState(false)
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]) // TODO: switch to null once loading is implemented
+  const [card, setCard] = useState<CharlieCard>(null)
+  const [cardAmount, setCardAmount] = useState(null)
 
   // TODO: extract from actual sources
   const history = [
@@ -85,6 +94,27 @@ export const HomePage = () => {
   const currentAmount = 20.32
   const nextTransactions = [25, 5]
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async function fetchData() {
+      setLoading(true)
+
+      setTransactions(await getTransactionHistory())
+      setCard(await getCardInfo())
+      // TODO: setCardAmount
+
+      setLoading(false)
+    }
+
+    // fetchData()
+    // TODO: temp
+    setLoading(true)
+    setTransactions(history)
+    setCard({ number: cardNumber, name: cardName })
+    setCardAmount(currentAmount)
+    setLoading(false)
+  }, [])
+
   const showRefill = () => {
     setShowModal(true)
   }
@@ -99,6 +129,17 @@ export const HomePage = () => {
 
   return (
     <>
+      {loading && (
+        <View>
+          <AnimatedLoader
+            visible
+            overlayColor="rgba(0,0,0,0.5)"
+            source={textLoading}
+            animationStyle={{ width: 100, height: 100 }}
+            speed={1}
+          />
+        </View>
+      )}
       {showModal && <View style={styles.modalBackground} />}
       <View
         className="bg-blue p-7 flex flex-row justify-between"
@@ -111,26 +152,27 @@ export const HomePage = () => {
       </View>
       <View style={styles.container} className="w-full">
         <BalanceDisplay
-          cardName={cardName}
-          cardNumber={cardNumber}
-          currentAmount={currentAmount}
+          card={card}
+          currentAmount={cardAmount}
+          loading={loading}
         />
       </View>
       <ScrollView style={styles.transactionScrollableContainer}>
-        {history.map((transaction, index) => (
-          <React.Fragment key={transaction.id}>
-            <TransactionDisplay transaction={transaction} />
-            {index < history.length - 1 && (
-              <View
-                className="h-px my-4 mr-2"
-                style={styles.transactionContainer}
-              ></View>
-            )}
-          </React.Fragment>
-        ))}
+        {!loading &&
+          transactions.map((transaction, index) => (
+            <React.Fragment key={index}>
+              <TransactionDisplay transaction={transaction} />
+              {index < transactions.length - 1 && (
+                <View
+                  className="h-px my-4 mr-2"
+                  style={styles.transactionContainer}
+                ></View>
+              )}
+            </React.Fragment>
+          ))}
       </ScrollView>
       <View style={styles.submitButtonContainer}>
-        <PrimaryButton onSubmit={showRefill} text="Refill" />
+        <PrimaryButton onSubmit={showRefill} text="Refill" disabled={loading} />
       </View>
       {showModal && (
         <Modal
@@ -145,8 +187,8 @@ export const HomePage = () => {
           </TouchableWithoutFeedback>
           <RefillModal
             handleDismiss={handleDismiss}
-            cardName={cardName}
-            currentAmount={currentAmount}
+            cardName={card.name}
+            currentAmount={cardAmount}
             refillTransactions={nextTransactions}
           />
         </Modal>

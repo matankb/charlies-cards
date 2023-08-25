@@ -113,6 +113,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           onSubmit={sendRefill}
           buttonColor="#428A4E"
           pressedButtonColor="#336B3C"
+          disabledButtonColor="#65B772"
         />
       </View>
     </View>

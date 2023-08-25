@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { MoneyDisplay } from './MoneyDisplay'
 import { FC } from 'react'
+import { CharlieCard } from '../../controllers/account'
 
 interface BalanceDisplayProps {
-  cardName: string
-  cardNumber: string
+  card: CharlieCard
   currentAmount: number
+  loading: boolean
 }
 
 const styles = StyleSheet.create({
@@ -18,6 +19,13 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     marginBottom: 10,
   },
+  loadingPlaceholderAmountText: {
+    color: '#B8B8B8',
+    fontFamily: 'LatoSemibold',
+    fontSize: 28,
+    marginVertical: 33,
+    paddingLeft: 6,
+  },
   cardNameText: {
     fontFamily: 'LatoRegular',
     color: 'white',
@@ -28,9 +36,9 @@ const styles = StyleSheet.create({
 })
 
 export const BalanceDisplay: FC<BalanceDisplayProps> = ({
-  cardName,
-  cardNumber,
+  card,
   currentAmount,
+  loading,
 }) => {
   return (
     <View
@@ -41,16 +49,24 @@ export const BalanceDisplay: FC<BalanceDisplayProps> = ({
         <Text className="" style={styles.balanceTitle}>
           CURRENT BALANCE
         </Text>
-        <MoneyDisplay amount={currentAmount} />
+        {loading ? (
+          <Text style={styles.loadingPlaceholderAmountText}>$ --</Text>
+        ) : (
+          <MoneyDisplay amount={currentAmount} />
+        )}
       </View>
       <View className="flex flex-row items-center" style={styles.cardContainer}>
-        <Text style={styles.cardNameText}>{cardName}</Text>
+        <Text style={styles.cardNameText}>
+          {loading ? 'Loading...' : card.name}
+        </Text>
       </View>
       <View
         className="flex flex-row items-center"
         style={styles.cardNumberContainer}
       >
-        <Text style={styles.cardNumberText}>{cardNumber}</Text>
+        <Text style={styles.cardNumberText}>
+          {loading ? '--' : card.number}
+        </Text>
       </View>
     </View>
   )
