@@ -85,7 +85,6 @@ export const HomePage = () => {
       setCardAmount(20.32)
 
       setLoading(false)
-      console.log('ran2')
     }
 
     fetchData()
