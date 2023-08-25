@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import {} from '@env' // loads the module
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_FIREBASE_API_KEY,
