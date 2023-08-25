@@ -1,4 +1,4 @@
-import { app } from './firebase'
+import { FirebaseTable, app } from './firebase'
 import { doc, getFirestore, setDoc, getDoc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
@@ -47,7 +47,7 @@ export async function setMyCharlieCredentials(
   const id = await getAccountId()
 
   const db = getFirestore(app)
-  const userDoc = doc(db, 'users', id)
+  const userDoc = doc(db, FirebaseTable.USERS, id)
 
   return setDoc(userDoc, {
     id,
@@ -63,7 +63,7 @@ export async function getCardInfo() {
   const accountId = await getAccountId()
 
   const db = getFirestore(app)
-  const transactionQuery = doc(db, 'users', accountId)
+  const transactionQuery = doc(db, FirebaseTable.USERS, accountId)
   const data = await getDoc(transactionQuery)
 
   const card = {

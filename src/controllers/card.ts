@@ -1,12 +1,14 @@
 import {
   collection,
+  doc,
   getDocs,
   getFirestore,
   query,
+  setDoc,
   where,
 } from 'firebase/firestore'
 
-import { app } from './firebase'
+import { FirebaseTable, app } from './firebase'
 import { getAccountId } from './account'
 
 export interface Transaction {
@@ -19,10 +21,11 @@ export async function getTransactionHistory() {
 
   const db = getFirestore(app)
   const transactionQuery = query(
-    collection(db, 'transactions'),
+    collection(db, FirebaseTable.TRANSACTIONS),
     where('accountId', '==', accountId),
   )
   const transactionDocs = await getDocs(transactionQuery)
+  console.log(transactionDocs.docs)
 
   const transactions = transactionDocs.docs.map((transaction) => {
     const data = transaction.data()
@@ -33,4 +36,15 @@ export async function getTransactionHistory() {
   })
 
   return transactions as Transaction[]
+}
+
+export async function addTransaction(transaction: Transaction) {
+  const accountId = await getAccountId()
+
+  const db = getFirestore(app)
+  const transactionsRef = collection(db, FirebaseTable.TRANSACTIONS)
+  await setDoc(doc(transactionsRef), {
+    ...transaction,
+    user: accountId,
+  })
 }

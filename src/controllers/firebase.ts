@@ -10,3 +10,8 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
+
+export enum FirebaseTable {
+  TRANSACTIONS = 'transaction-history',
+  USERS = 'users',
+}
