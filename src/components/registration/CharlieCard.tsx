@@ -8,8 +8,12 @@ interface CharlieCardProps {
   onSubmit: () => void
   card: string
   setCard: (string) => void
-  error: string
-  setError: (string) => void
+  cardError: string
+  setCardError: (string) => void
+  cardName: string
+  setCardName: (string) => void
+  cardNameError: string
+  setCardNameError: (string) => void
   handlePrevPage: () => void
 }
 
@@ -17,20 +21,33 @@ export const CharlieCard: FC<CharlieCardProps> = ({
   onSubmit,
   card,
   setCard,
-  error,
-  setError,
+  cardError,
+  setCardError,
+  cardName,
+  setCardName,
+  cardNameError,
+  setCardNameError,
   handlePrevPage,
 }) => {
   const updateCard = (value: string) => {
-    setError(undefined)
+    setCardError(undefined)
     setCard(value)
   }
 
+  const updateCardName = (value: string) => {
+    setCardNameError(undefined)
+    setCardName(value)
+  }
+
   const validateInputs = () => {
-    if (card !== '') return true
+    if (card !== '' && cardName !== '') return true
 
     if (card === '') {
-      setError('Please enter a card.')
+      setCardError('Please enter a card.')
+    }
+
+    if (cardName === '') {
+      setCardNameError('Please enter a card name')
     }
 
     return false
@@ -50,12 +67,20 @@ export const CharlieCard: FC<CharlieCardProps> = ({
           handlePrevPage={handlePrevPage}
         />
         <Text className="text-gray-400">Enter your Charlie Card number.</Text>
+        {/* TODO: switch this to fetch from website? Then combine into Card Name (Card Number) and one input */}
         <FormTextInput
           title="Charlie Card:"
           value={card}
           placeholder="X-XXXXXXXXXX"
           onChange={updateCard}
-          error={error}
+          error={cardError}
+        />
+        <FormTextInput
+          title="Card Name:"
+          value={cardName}
+          placeholder="Charlie's Card"
+          onChange={updateCardName}
+          error={cardNameError}
         />
       </View>
       <View style={{ marginBottom: 10 }}>

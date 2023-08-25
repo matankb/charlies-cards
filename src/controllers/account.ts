@@ -36,6 +36,7 @@ export async function setMyCharlieCredentials(
   username: string,
   password: string,
   card: string,
+  cardName: string,
 ) {
   const notificationToken = await getNotificationToken()
   const id = await getAccountId()
@@ -48,6 +49,7 @@ export async function setMyCharlieCredentials(
     username,
     password,
     card,
+    cardName,
     notificationToken,
   })
 }

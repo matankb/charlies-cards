@@ -25,6 +25,8 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   // page 2 state (charlie card)
   const [charlieCard, setCharlieCard] = useState('')
   const [charlieCardError, setCharlieCardError] = useState(undefined)
+  const [charlieCardName, setCharlieCardName] = useState('')
+  const [charlieCardNameError, setCharlieCardNameError] = useState(undefined)
 
   const handleNextPage = () => {
     if (index === pages.length - 1) {
@@ -41,7 +43,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   }
 
   const handleFormSubmit = () => {
-    setMyCharlieCredentials(userName, password, charlieCard)
+    setMyCharlieCredentials(userName, password, charlieCard, charlieCardName)
     setRegisteredComplete()
   }
 
@@ -61,8 +63,12 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
       onSubmit={handleNextPage}
       card={charlieCard}
       setCard={setCharlieCard}
-      error={charlieCardError}
-      setError={setCharlieCardError}
+      cardError={charlieCardError}
+      setCardError={setCharlieCardError}
+      cardName={charlieCardName}
+      setCardName={setCharlieCardName}
+      cardNameError={charlieCardNameError}
+      setCardNameError={setCharlieCardNameError}
       handlePrevPage={handlePrevPage}
     />,
     <CreditCard onSubmit={handleNextPage} handlePrevPage={handlePrevPage} />,
