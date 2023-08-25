@@ -19,6 +19,8 @@ export default function App() {
     return null
   }
 
+  SplashScreen.hideAsync()
+
   return (
     <>
       <View className="h-full" onLayout={onLayoutRootView}>
