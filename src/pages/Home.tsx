@@ -72,26 +72,6 @@ export const HomePage = () => {
   const [cardAmount, setCardAmount] = useState(null)
 
   // TODO: extract from actual sources
-  const history = [
-    {
-      id: 2,
-      amount: 50,
-      date: new Date(),
-    },
-    {
-      id: 1,
-      amount: 40,
-      date: new Date(),
-    },
-    {
-      id: 3,
-      amount: 700,
-      date: new Date(),
-    },
-  ]
-  const cardName = "Jacob's card"
-  const cardNumber = '05-038471732832'
-  const currentAmount = 20.32
   const nextTransactions = [25, 5]
 
   useEffect(() => {
@@ -102,17 +82,19 @@ export const HomePage = () => {
       setTransactions(await getTransactionHistory())
       setCard(await getCardInfo())
       // TODO: setCardAmount
+      setCardAmount(20.32)
 
       setLoading(false)
+      console.log('ran2')
     }
 
-    // fetchData()
+    fetchData()
     // TODO: temp
-    setLoading(true)
-    setTransactions(history)
-    setCard({ number: cardNumber, name: cardName })
-    setCardAmount(currentAmount)
-    setLoading(false)
+    // setLoading(true)
+    // setTransactions(history)
+    // setCard({ number: cardNumber, name: cardName })
+    // setCardAmount(currentAmount)
+    // setLoading(false)
   }, [])
 
   const showRefill = () => {

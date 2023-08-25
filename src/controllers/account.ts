@@ -1,5 +1,5 @@
 import { app } from './firebase'
-import { doc, getFirestore, setDoc } from 'firebase/firestore'
+import { doc, getFirestore, setDoc, getDoc } from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
 import { getNotificationToken } from './notifications'
@@ -9,6 +9,11 @@ enum StorageKey {
    * Internal UUID of the account.
    */
   ACCOUNT_ID = 'account-id',
+}
+
+export interface CharlieCard {
+  number: string
+  name: string
 }
 
 async function createAccountId() {
@@ -52,4 +57,19 @@ export async function setMyCharlieCredentials(
     cardName,
     notificationToken,
   })
+}
+
+export async function getCardInfo() {
+  const accountId = await getAccountId()
+
+  const db = getFirestore(app)
+  const transactionQuery = doc(db, 'users', accountId)
+  const data = await getDoc(transactionQuery)
+
+  const card = {
+    number: data.data().card,
+    name: data.data().cardName,
+  }
+
+  return card as CharlieCard
 }
