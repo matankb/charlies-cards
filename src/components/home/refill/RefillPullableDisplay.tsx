@@ -6,22 +6,6 @@ interface RefillPullableDisplayProps {
   addedAmount: number
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#ECECEC',
-    borderRadius: 16,
-    padding: 8,
-  },
-  currentAmountContainer: { width: '40%' },
-  currentAmountText: {
-    color: 'white',
-    fontFamily: 'LatoSemibold',
-    fontSize: 16,
-  },
-  addedAmountContainer: { width: '40%', backgroundColor: '#428A4E' },
-  addedAmountText: { color: 'white', fontFamily: 'LatoSemibold', fontSize: 16 },
-})
-
 export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   currentAmount,
   addedAmount,
@@ -50,3 +34,19 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ECECEC',
+    borderRadius: 16,
+    padding: 8,
+  },
+  currentAmountContainer: { width: '40%' },
+  currentAmountText: {
+    color: 'white',
+    fontFamily: 'LatoSemibold',
+    fontSize: 16,
+  },
+  addedAmountContainer: { width: '40%', backgroundColor: '#428A4E' },
+  addedAmountText: { color: 'white', fontFamily: 'LatoSemibold', fontSize: 16 },
+})

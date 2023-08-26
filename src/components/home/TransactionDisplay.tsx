@@ -9,21 +9,6 @@ interface TransactionDisplayProps {
   }
 }
 
-const styles = StyleSheet.create({
-  container: { display: 'flex', flexDirection: 'row' },
-  iconContainer: {
-    backgroundColor: 'white',
-    display: 'flex',
-    maxHeight: 40,
-    justifyContent: 'center',
-    padding: 8,
-    borderRadius: 50,
-    marginRight: 27,
-  },
-  amountText: { fontFamily: 'LatoSemibold', fontSize: 18 },
-  dateText: { fontFamily: 'LatoRegular', fontSize: 16, color: '#878787' },
-})
-
 export const TransactionDisplay: FC<TransactionDisplayProps> = ({
   transaction: { amount, date },
 }) => {
@@ -39,3 +24,18 @@ export const TransactionDisplay: FC<TransactionDisplayProps> = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: { display: 'flex', flexDirection: 'row' },
+  iconContainer: {
+    backgroundColor: 'white',
+    display: 'flex',
+    maxHeight: 40,
+    justifyContent: 'center',
+    padding: 8,
+    borderRadius: 50,
+    marginRight: 27,
+  },
+  amountText: { fontFamily: 'LatoSemibold', fontSize: 18 },
+  dateText: { fontFamily: 'LatoRegular', fontSize: 16, color: '#878787' },
+})

@@ -9,32 +9,6 @@ interface BalanceDisplayProps {
   loading: boolean
 }
 
-const styles = StyleSheet.create({
-  container: { width: '85%', paddingBottom: 10 },
-  balanceTitle: { fontFamily: 'LatoRegular', color: '#7A7A7A', fontSize: 10 },
-  cardContainer: {
-    width: '100%',
-    height: 35,
-    backgroundColor: '#428A4E',
-    paddingLeft: 30,
-    marginBottom: 10,
-  },
-  loadingPlaceholderAmountText: {
-    color: '#B8B8B8',
-    fontFamily: 'LatoSemibold',
-    fontSize: 28,
-    marginVertical: 33,
-    paddingLeft: 6,
-  },
-  cardNameText: {
-    fontFamily: 'LatoRegular',
-    color: 'white',
-    fontSize: 16,
-  },
-  cardNumberContainer: { paddingLeft: 30 },
-  cardNumberText: { fontFamily: 'LatoRegular', fontSize: 12 },
-})
-
 export const BalanceDisplay: FC<BalanceDisplayProps> = ({
   card,
   currentAmount,
@@ -71,3 +45,29 @@ export const BalanceDisplay: FC<BalanceDisplayProps> = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: { width: '85%', paddingBottom: 10 },
+  balanceTitle: { fontFamily: 'LatoRegular', color: '#7A7A7A', fontSize: 10 },
+  cardContainer: {
+    width: '100%',
+    height: 35,
+    backgroundColor: '#428A4E',
+    paddingLeft: 30,
+    marginBottom: 10,
+  },
+  loadingPlaceholderAmountText: {
+    color: '#B8B8B8',
+    fontFamily: 'LatoSemibold',
+    fontSize: 28,
+    marginVertical: 33,
+    paddingLeft: 6,
+  },
+  cardNameText: {
+    fontFamily: 'LatoRegular',
+    color: 'white',
+    fontSize: 16,
+  },
+  cardNumberContainer: { paddingLeft: 30 },
+  cardNumberText: { fontFamily: 'LatoRegular', fontSize: 12 },
+})

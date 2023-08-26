@@ -8,19 +8,6 @@ interface MoneyDisplayProps {
   shrinkCents?: boolean
 }
 
-const styles = StyleSheet.create({
-  container: { gap: 6, marginBottom: 25 },
-  dollarSignText: {
-    fontFamily: 'LatoRegular',
-    fontSize: 24,
-  },
-  dollarsText: { fontFamily: 'LatoBold', fontSize: 56 },
-  centsText: {
-    fontFamily: 'LatoBold',
-    paddingBottom: 8,
-  },
-})
-
 export const MoneyDisplay: FC<MoneyDisplayProps> = ({
   amount,
   dollarColor = 'black',
@@ -56,3 +43,16 @@ export const MoneyDisplay: FC<MoneyDisplayProps> = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: { gap: 6, marginBottom: 25 },
+  dollarSignText: {
+    fontFamily: 'LatoRegular',
+    fontSize: 24,
+  },
+  dollarsText: { fontFamily: 'LatoBold', fontSize: 56 },
+  centsText: {
+    fontFamily: 'LatoBold',
+    paddingBottom: 8,
+  },
+})

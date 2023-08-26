@@ -13,45 +13,6 @@ interface RefillModalPropsimport {
   refillTransactions: number[]
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '50%',
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: 'white',
-    borderTopRightRadius: 24,
-    borderTopLeftRadius: 24,
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: 19,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  dismissButton: {
-    borderRadius: 50,
-    backgroundColor: '#EBEBEB',
-    position: 'absolute',
-    top: 13,
-    right: 13,
-    padding: 6,
-  },
-  refillTitle: { fontFamily: 'LatoSemibold', fontSize: 16 },
-  transactionArrow: { paddingHorizontal: 12, paddingVertical: 16 },
-  billingSummaryContainer: {
-    position: 'absolute',
-    bottom: 10,
-    width: '100%',
-  },
-  billingSummaryText: {
-    fontFamily: 'LatoRegular',
-    fontSize: 12,
-    color: '#878787',
-    alignSelf: 'center',
-    paddingBottom: 8,
-  },
-})
-
 export const RefillModal: FC<RefillModalPropsimport> = ({
   handleDismiss,
   cardName,
@@ -119,3 +80,42 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '50%',
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'white',
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: 19,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  dismissButton: {
+    borderRadius: 50,
+    backgroundColor: '#EBEBEB',
+    position: 'absolute',
+    top: 13,
+    right: 13,
+    padding: 6,
+  },
+  refillTitle: { fontFamily: 'LatoSemibold', fontSize: 16 },
+  transactionArrow: { paddingHorizontal: 12, paddingVertical: 16 },
+  billingSummaryContainer: {
+    position: 'absolute',
+    bottom: 10,
+    width: '100%',
+  },
+  billingSummaryText: {
+    fontFamily: 'LatoRegular',
+    fontSize: 12,
+    color: '#878787',
+    alignSelf: 'center',
+    paddingBottom: 8,
+  },
+})

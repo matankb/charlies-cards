@@ -10,10 +10,6 @@ interface SubmitButtonProps {
   disabledButtonColor?: string
 }
 
-const styles = StyleSheet.create({
-  text: { color: 'white', fontFamily: 'LatoBold', fontSize: 22 },
-})
-
 export const PrimaryButton: FC<SubmitButtonProps> = ({
   onSubmit,
   text,
@@ -45,3 +41,7 @@ export const PrimaryButton: FC<SubmitButtonProps> = ({
     </Pressable>
   )
 }
+
+const styles = StyleSheet.create({
+  text: { color: 'white', fontFamily: 'LatoBold', fontSize: 22 },
+})

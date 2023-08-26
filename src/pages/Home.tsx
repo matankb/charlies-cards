@@ -18,51 +18,6 @@ import { CharlieCard, getCardInfo } from '../controllers/account'
 import textLoading from '../../assets/text-loading.json'
 import AnimatedLoader from 'react-native-animated-loader'
 
-const styles = StyleSheet.create({
-  modalBackground: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'black',
-    opacity: 0.5,
-    zIndex: 2,
-  },
-  walletTitleText: { fontFamily: 'Lato', fontSize: 20, color: 'white' },
-  container: {
-    position: 'absolute',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    left: 0,
-    right: 0,
-    width: '100%',
-    top: 70,
-  },
-  transactionScrollableContainer: {
-    marginTop: 70,
-    width: '90%',
-    alignSelf: 'center',
-  },
-  transactionContainer: {
-    backgroundColor: '#D9D9D9',
-    width: '80%',
-    alignSelf: 'flex-end',
-  },
-  submitButtonContainer: {
-    padding: 16,
-    display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  modalDismissBackground: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-})
-
 export const HomePage = () => {
   const [loading, setLoading] = useState(true) // TODO: make work
   const [showModal, setShowModal] = useState(false)
@@ -185,3 +140,48 @@ export const HomePage = () => {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  modalBackground: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'black',
+    opacity: 0.5,
+    zIndex: 2,
+  },
+  walletTitleText: { fontFamily: 'Lato', fontSize: 20, color: 'white' },
+  container: {
+    position: 'absolute',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: 0,
+    right: 0,
+    width: '100%',
+    top: 70,
+  },
+  transactionScrollableContainer: {
+    marginTop: 70,
+    width: '90%',
+    alignSelf: 'center',
+  },
+  transactionContainer: {
+    backgroundColor: '#D9D9D9',
+    width: '80%',
+    alignSelf: 'flex-end',
+  },
+  submitButtonContainer: {
+    padding: 16,
+    display: 'flex',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  modalDismissBackground: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+})
