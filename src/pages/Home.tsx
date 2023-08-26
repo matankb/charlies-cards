@@ -75,7 +75,6 @@ export const HomePage = () => {
   const nextTransactions = [25, 5]
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async function fetchData() {
       setLoading(true)
 
@@ -87,14 +86,11 @@ export const HomePage = () => {
       setLoading(false)
     }
 
+    setShowModal(false)
     fetchData()
-    // TODO: temp
-    // setLoading(true)
-    // setTransactions(history)
-    // setCard({ number: cardNumber, name: cardName })
-    // setCardAmount(currentAmount)
-    // setLoading(false)
   }, [])
+
+  /* CALLBACK FUNCTIONS */
 
   const showRefill = () => {
     setShowModal(true)
@@ -108,20 +104,49 @@ export const HomePage = () => {
     setShowModal(false)
   }
 
+  /* RENDERING FUNCTIONS */
+
+  const LoadingSpinner = () => {
+    return (
+      <View>
+        <AnimatedLoader
+          visible
+          overlayColor="rgba(0,0,0,0.5)"
+          source={textLoading}
+          animationStyle={{ width: 100, height: 100 }}
+          speed={1}
+        />
+      </View>
+    )
+  }
+
+  const InternalModal = () => {
+    return (
+      <>
+        <Modal
+          visible={showModal}
+          onRequestClose={handleSubmitRefill}
+          transparent
+          animationType="slide"
+          onDismiss={handleDismiss}
+        >
+          <TouchableWithoutFeedback onPress={handleDismiss}>
+            <View style={styles.modalDismissBackground} />
+          </TouchableWithoutFeedback>
+          <RefillModal
+            handleDismiss={handleDismiss}
+            cardName={card.name}
+            currentAmount={cardAmount}
+            refillTransactions={nextTransactions}
+          />
+        </Modal>
+        <View style={styles.modalBackground} />
+      </>
+    )
+  }
+
   return (
     <>
-      {loading && (
-        <View>
-          <AnimatedLoader
-            visible
-            overlayColor="rgba(0,0,0,0.5)"
-            source={textLoading}
-            animationStyle={{ width: 100, height: 100 }}
-            speed={1}
-          />
-        </View>
-      )}
-      {showModal && <View style={styles.modalBackground} />}
       <View
         className="bg-blue p-7 flex flex-row justify-between"
         style={{ height: '33%' }}
@@ -155,25 +180,8 @@ export const HomePage = () => {
       <View style={styles.submitButtonContainer}>
         <PrimaryButton onSubmit={showRefill} text="Refill" disabled={loading} />
       </View>
-      {showModal && (
-        <Modal
-          visible={showModal}
-          onRequestClose={handleSubmitRefill}
-          transparent
-          animationType="slide"
-          onDismiss={handleDismiss}
-        >
-          <TouchableWithoutFeedback onPress={handleDismiss}>
-            <View style={styles.modalDismissBackground} />
-          </TouchableWithoutFeedback>
-          <RefillModal
-            handleDismiss={handleDismiss}
-            cardName={card.name}
-            currentAmount={cardAmount}
-            refillTransactions={nextTransactions}
-          />
-        </Modal>
-      )}
+      {loading && <LoadingSpinner />}
+      {showModal && <InternalModal />}
     </>
   )
 }
