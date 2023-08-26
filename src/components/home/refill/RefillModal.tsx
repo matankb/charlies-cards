@@ -109,6 +109,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           <RefillPullableDisplay
             currentAmount={currentAmount}
             addedAmount={calculatedAddition()}
+            onAdjustAddedAmount={setTargetAmount}
           />
           <View style={styles.billingSummaryContainer}>
             <Text style={styles.billingSummaryText}>
@@ -141,8 +142,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     paddingTop: 19,
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingHorizontal: 16,
   },
   dismissButton: {
     borderRadius: 50,
