@@ -25,7 +25,6 @@ export async function getTransactionHistory() {
     where('accountId', '==', accountId),
   )
   const transactionDocs = await getDocs(transactionQuery)
-  console.log(transactionDocs.docs)
 
   const transactions = transactionDocs.docs.map((transaction) => {
     const data = transaction.data()
