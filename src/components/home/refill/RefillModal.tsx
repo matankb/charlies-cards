@@ -1,36 +1,77 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { MoneyDisplay } from '../MoneyDisplay'
 import { FontAwesome } from '@expo/vector-icons'
 import { RefillPullableDisplay } from './RefillPullableDisplay'
 import { PrimaryButton } from '../../PrimaryButton'
+import { getRefillTarget } from '../../../controllers/settings'
+import { LoadingSpinner } from '../../LoadingSpinner'
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
   cardName: string
   currentAmount: number
-  refillTransactions: number[]
 }
+
+const validTransactionAmounts = [5, 10, 20, 25, 50]
 
 export const RefillModal: FC<RefillModalPropsimport> = ({
   handleDismiss,
   cardName,
   currentAmount,
-  refillTransactions,
 }) => {
+  const [loading, setLoading] = useState(true)
+  const [targetAmount, setTargetAmount] = useState<number>(null)
+  const [transactions, setTransactions] = useState<number[]>(null)
+
+  useEffect(() => {
+    async function setInitialTarget() {
+      setTargetAmount(Number(await getRefillTarget()))
+    }
+    setInitialTarget()
+  })
+
+  useEffect(() => {
+    async function calculateTransactions() {
+      setLoading(true)
+
+      function findNextTransaction(delta: number) {
+        return validTransactionAmounts.findLast(
+          (a) => targetAmount > currentAmount + delta + a,
+        )
+      }
+
+      let delta = 0
+      let tempTransactions = []
+      while (findNextTransaction(delta)) {
+        const next = findNextTransaction(delta)
+        delta += next
+        tempTransactions = tempTransactions.concat(next)
+        console.log(tempTransactions)
+      }
+
+      setTransactions(tempTransactions)
+      setLoading(false)
+    }
+
+    calculateTransactions()
+  }, [targetAmount])
+
   const calculatedAddition = () => {
-    return refillTransactions.reduce((partialSum, a) => partialSum + a, 0)
+    return transactions.reduce((partialSum, a) => partialSum + a, 0)
   }
 
   const telegraphedTransactions = () => {
-    if (refillTransactions.length === 0) return '$0'
-    const out = refillTransactions
+    if (transactions.length === 0) return '$0'
+    if (transactions.length === 1)
+      return `$${transactions[0]} as one transaction.`
+    const out = transactions
       .slice(0, -1)
       .map((x) => '$' + x.toString())
       .join(', ')
 
-    return out + ` and then $${refillTransactions.findLast(() => true)}`
+    return out + ` and then $${transactions.findLast(() => true)}`
   }
 
   const sendRefill = () => {
@@ -43,40 +84,47 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
         <AntDesign name="close" size={16} color="gray" />
       </Pressable>
       <Text style={styles.refillTitle}>Refill {cardName}</Text>
-      <View className="flex flex-row justify-between align-center pt-5">
-        <MoneyDisplay
-          amount={currentAmount}
-          dollarColor="#B8B8B8"
-          shrinkCents
-        />
-        <FontAwesome
-          name="long-arrow-right"
-          size={32}
-          color="#B8B8B8"
-          style={styles.transactionArrow}
-        />
-        <MoneyDisplay
-          amount={currentAmount + calculatedAddition()}
-          centColor="black"
-          shrinkCents
-        />
-      </View>
-      <RefillPullableDisplay
-        currentAmount={currentAmount}
-        addedAmount={calculatedAddition()}
-      />
-      <View style={styles.billingSummaryContainer}>
-        <Text style={styles.billingSummaryText}>
-          You will be billed {telegraphedTransactions()}
-        </Text>
-        <PrimaryButton
-          text={`Pay $${calculatedAddition()}`}
-          onSubmit={sendRefill}
-          buttonColor="#428A4E"
-          pressedButtonColor="#336B3C"
-          disabledButtonColor="#65B772"
-        />
-      </View>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <View className="flex flex-row justify-between align-center pt-5">
+            <MoneyDisplay
+              amount={currentAmount}
+              dollarColor="#B8B8B8"
+              shrinkCents
+            />
+            <FontAwesome
+              name="long-arrow-right"
+              size={32}
+              color="#B8B8B8"
+              style={styles.transactionArrow}
+            />
+            <MoneyDisplay
+              amount={currentAmount + calculatedAddition()}
+              centColor="black"
+              shrinkCents
+            />
+          </View>
+          <RefillPullableDisplay
+            currentAmount={currentAmount}
+            addedAmount={calculatedAddition()}
+          />
+          <View style={styles.billingSummaryContainer}>
+            <Text style={styles.billingSummaryText}>
+              You will be billed {telegraphedTransactions()}
+            </Text>
+            <PrimaryButton
+              text={`Pay $${calculatedAddition()}`}
+              onSubmit={sendRefill}
+              buttonColor="#428A4E"
+              pressedButtonColor="#336B3C"
+              disabledButtonColor="#65B772"
+              disabled={calculatedAddition() === 0}
+            />
+          </View>
+        </>
+      )}
     </View>
   )
 }
