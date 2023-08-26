@@ -34,11 +34,11 @@ export async function setCreditCard(card: CreditCardModel) {
   return AsyncStorage.setItem(StorageKey.CREDIT_CARD, JSON.stringify(card))
 }
 
-export async function getRefillLimit() {
+export async function getRefillTarget() {
   return AsyncStorage.getItem(StorageKey.REFILL_TARGET)
 }
 
-export async function setRefillLimit(limit: number) {
+export async function setRefillTarget(limit: number) {
   return AsyncStorage.setItem(StorageKey.REFILL_TARGET, limit.toString())
 }
 
