@@ -35,7 +35,6 @@ export async function setCreditCard(card: CreditCardModel) {
 }
 
 export async function getRefillTarget() {
-  return 90
   return AsyncStorage.getItem(StorageKey.REFILL_TARGET)
 }
 
