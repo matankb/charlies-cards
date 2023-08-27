@@ -16,9 +16,10 @@ import { RefillModal } from '../components/home/refill/RefillModal'
 import { Transaction, getTransactionHistory } from '../controllers/card'
 import { CharlieCard, getCardInfo } from '../controllers/account'
 import { LoadingSpinner } from '../components/LoadingSpinner'
+import { ScreenName } from '../components/navigators/ScreenName'
 
-export const HomePage = () => {
-  const [loading, setLoading] = useState(true) // TODO: make work
+export const HomePage = ({ navigation }) => {
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
   const [transactions, setTransactions] = useState<Transaction[]>([]) // TODO: switch to null once loading is implemented
@@ -55,6 +56,10 @@ export const HomePage = () => {
     setShowModal(false)
   }
 
+  const handleSettingsClick = () => {
+    navigation.navigate(ScreenName.SETTINGS)
+  }
+
   /* RENDERING FUNCTIONS */
 
   const InternalModal = () => {
@@ -88,7 +93,7 @@ export const HomePage = () => {
         style={{ height: '33%' }}
       >
         <Text style={styles.walletTitleText}>Cardlie Wallet</Text>
-        <Pressable>
+        <Pressable onPress={handleSettingsClick}>
           <Entypo name="cog" size={25} color="white" />
         </Pressable>
       </View>
