@@ -30,7 +30,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       setTargetAmount(Number(await getRefillTarget()))
     }
     setInitialTarget()
-  })
+  }, [])
 
   useEffect(() => {
     async function calculateTransactions() {
@@ -48,7 +48,6 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
         const next = findNextTransaction(delta)
         delta += next
         tempTransactions = tempTransactions.concat(next)
-        console.log(tempTransactions)
       }
 
       setTransactions(tempTransactions)
@@ -74,8 +73,8 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
     return out + ` and then $${transactions.findLast(() => true)}`
   }
 
-  const sendRefill = () => {
-    console.log('send refill') // TODO: connect to actual refill
+  const sendRefill = (amount: number) => {
+    console.log(`send refill for $${amount}`) // TODO: connect to actual refill
   }
 
   return (
@@ -109,7 +108,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           <RefillPullableDisplay
             currentAmount={currentAmount}
             addedAmount={calculatedAddition()}
-            onAdjustAddedAmount={setTargetAmount}
+            handleUpdatedAmount={setTargetAmount}
           />
           <View style={styles.billingSummaryContainer}>
             <Text style={styles.billingSummaryText}>
@@ -117,7 +116,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             </Text>
             <PrimaryButton
               text={`Pay $${calculatedAddition()}`}
-              onSubmit={sendRefill}
+              onSubmit={() => sendRefill(calculatedAddition())}
               buttonColor="#428A4E"
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"

@@ -5,7 +5,7 @@ import { PullableElement } from '../../PullableElement'
 interface RefillPullableDisplayProps {
   currentAmount: number
   addedAmount: number
-  onAdjustAddedAmount: (number) => void
+  handleUpdatedAmount: (number) => void
 }
 
 const MAX_REFILL = 150
@@ -14,17 +14,23 @@ const DEFAULT_WIDTH = 22
 export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   currentAmount,
   addedAmount: initialAddedAmount,
-  onAdjustAddedAmount,
+  handleUpdatedAmount,
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [addedAmount, setAddedAmount] = useState(initialAddedAmount) // $
   const [pulledWidth, setPulledWidth] = useState(DEFAULT_WIDTH)
 
-  useEffect(() => onAdjustAddedAmount(addedAmount), [addedAmount])
+  useEffect(() => handleUpdatedAmount(addedAmount), [addedAmount])
 
   const currentAmountWidth = () => {
     // todo: make the 22 (min width) calculated based on digits in amount displayed
     return Math.max(DEFAULT_WIDTH, currentAmount / MAX_REFILL)
+  }
+
+  const handleUpdatePulledWidth = (width: number) => {
+    const amount = Math.ceil((MAX_REFILL * (width / 100)) / 5) * 5
+    setAddedAmount(amount)
+    setPulledWidth(width)
   }
 
   return (
@@ -47,13 +53,13 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
         style={[styles.addedAmountContainer, { width: `${pulledWidth}%` }]}
       >
         <Text numberOfLines={1} style={styles.addedAmountText}>
-          +${addedAmount}
+          +${addedAmount - 25}
         </Text>
         <PullableElement
-          min={16}
+          min={DEFAULT_WIDTH}
           max={100 - currentAmountWidth()}
           startingValue={DEFAULT_WIDTH}
-          updateWidth={setPulledWidth}
+          updateWidth={handleUpdatePulledWidth}
         />
       </View>
     </View>
