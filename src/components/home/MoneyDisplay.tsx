@@ -14,7 +14,7 @@ export const MoneyDisplay: FC<MoneyDisplayProps> = ({
   centColor = '#B8B8B8',
   shrinkCents = false,
 }) => {
-  const [dollars, cents] = amount.toString().split('.')
+  const [dollars, cents] = amount.toFixed(2).toString().split('.')
 
   return (
     <View className="flex flex-row items-start" style={styles.container}>
