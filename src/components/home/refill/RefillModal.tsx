@@ -10,6 +10,7 @@ import { LoadingSpinner } from '../../LoadingSpinner'
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
+  handleRefill: (number) => void
   cardName: string
   currentAmount: number
 }
@@ -18,6 +19,7 @@ const validTransactionAmounts = [5, 10, 20, 25, 50]
 
 export const RefillModal: FC<RefillModalPropsimport> = ({
   handleDismiss,
+  handleRefill,
   cardName,
   currentAmount,
 }) => {
@@ -73,10 +75,6 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
     return out + ` and then $${transactions.findLast(() => true)}`
   }
 
-  const sendRefill = (amount: number) => {
-    console.log(`send refill for $${amount}`) // TODO: connect to actual refill
-  }
-
   return (
     <View style={styles.container}>
       <Pressable style={styles.dismissButton} onPress={handleDismiss}>
@@ -116,7 +114,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             </Text>
             <PrimaryButton
               text={`Pay $${calculatedAddition()}`}
-              onSubmit={() => sendRefill(calculatedAddition())}
+              onSubmit={() => handleRefill(calculatedAddition())}
               buttonColor="#428A4E"
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"

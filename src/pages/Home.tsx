@@ -48,7 +48,8 @@ export const HomePage = ({ navigation }) => {
     setShowModal(true)
   }
 
-  const handleSubmitRefill = () => {
+  const handleSubmitRefill = (amount: number) => {
+    console.log(`send refill for $${amount}`) // TODO: connect to actual refill
     setShowModal(false)
   }
 
@@ -67,7 +68,7 @@ export const HomePage = ({ navigation }) => {
       <>
         <Modal
           visible={showModal}
-          onRequestClose={handleSubmitRefill}
+          onRequestClose={handleDismiss}
           transparent
           animationType="slide"
           onDismiss={handleDismiss}
@@ -77,6 +78,7 @@ export const HomePage = ({ navigation }) => {
           </TouchableWithoutFeedback>
           <RefillModal
             handleDismiss={handleDismiss}
+            handleRefill={handleSubmitRefill}
             cardName={card.name}
             currentAmount={cardAmount}
           />
