@@ -9,6 +9,8 @@ interface RefillPullableDisplayProps {
 }
 
 const MAX_REFILL = 150
+const MIN_REFILL = 5
+// todo: make the 22 (min width) calculated based on digits in amount displayed
 const DEFAULT_WIDTH = 22
 
 export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
@@ -16,20 +18,37 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   initialAddedAmount,
   handleUpdatedAmount,
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [addedAmount, setAddedAmount] = useState(initialAddedAmount) // $
-  const [pulledWidth, setPulledWidth] = useState(DEFAULT_WIDTH)
+  const [pulledWidth, setPulledWidth] = useState(null)
 
-  useEffect(() => handleUpdatedAmount(addedAmount), [addedAmount])
+  const currentAmountWidth = Math.max(DEFAULT_WIDTH, currentAmount / MAX_REFILL)
+  const amountFromPullableWidth = (width: number) => {
+    function roundTo5(x: number, floor = false) {
+      return (floor ? Math.floor(x / 5) : Math.ceil(x / 5)) * 5
+    }
 
-  const currentAmountWidth = () => {
-    // todo: make the 22 (min width) calculated based on digits in amount displayed
-    return Math.max(DEFAULT_WIDTH, currentAmount / MAX_REFILL)
+    const out = roundTo5(
+      (MAX_REFILL - currentAmount) * (width / (100 - currentAmountWidth)),
+    )
+
+    if (MAX_REFILL < out + currentAmount) {
+      return roundTo5(MAX_REFILL - currentAmount, true)
+    } else {
+      return out
+    }
+  }
+  const pullableWidthFromAmount = (amount: number) => {
+    return (100 - currentAmountWidth) * (amount / (MAX_REFILL - currentAmount))
   }
 
+  useEffect(() => {
+    setPulledWidth(pullableWidthFromAmount(initialAddedAmount))
+  }, [])
+
   const handleUpdatePulledWidth = (width: number) => {
-    const amount = Math.ceil((MAX_REFILL * (width / 100)) / 5) * 5
+    const amount = amountFromPullableWidth(width)
     setAddedAmount(amount)
+    handleUpdatedAmount(amount)
     setPulledWidth(width)
   }
 
@@ -41,7 +60,7 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
       <View
         className="rounded-l-xl bg-blue py-5 px-2.5"
         style={{
-          width: `${currentAmountWidth()}%`,
+          width: `${currentAmountWidth}%`,
         }}
       >
         <Text numberOfLines={1} style={styles.currentAmountText}>
@@ -53,12 +72,12 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
         style={[styles.addedAmountContainer, { width: `${pulledWidth}%` }]}
       >
         <Text numberOfLines={1} style={styles.addedAmountText}>
-          +${addedAmount - 25}
+          +${addedAmount}
         </Text>
         <PullableElement
-          min={DEFAULT_WIDTH}
-          max={100 - currentAmountWidth()}
-          startingValue={DEFAULT_WIDTH}
+          min={pullableWidthFromAmount(MIN_REFILL)}
+          max={100 - currentAmountWidth}
+          startingValue={pullableWidthFromAmount(addedAmount)}
           updateWidth={handleUpdatePulledWidth}
         />
       </View>

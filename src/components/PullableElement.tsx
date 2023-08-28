@@ -28,10 +28,15 @@ export const PullableElement: FC<PullableElementProps> = ({
       setTempPulledWidth(0)
     }
   }, [pulling])
+
   useEffect(
     () => updateWidth(pulledWidth.current + tempPulledWidth),
     [pulledWidth, tempPulledWidth],
   )
+
+  const pixelsToPercentWidth = (pixels: number) => {
+    return (pixels / COMPONENT_WIDTH) * 100
+  }
 
   /* PULLING CALCULATIONS */
 
@@ -62,10 +67,6 @@ export const PullableElement: FC<PullableElementProps> = ({
       onShouldBlockNativeResponder: () => true,
     }),
   ).current
-
-  const pixelsToPercentWidth = (pixels: number) => {
-    return (pixels / COMPONENT_WIDTH) * 100
-  }
 
   return (
     <>

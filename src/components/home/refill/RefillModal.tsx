@@ -29,7 +29,8 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
 
   useEffect(() => {
     async function setInitialTarget() {
-      setTargetAmount(Number(await getRefillTarget()))
+      const target = Number(await getRefillTarget())
+      setTargetAmount(Math.max(target, currentAmount + 10))
     }
     setInitialTarget()
   }, [])
@@ -37,10 +38,11 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   useEffect(() => {
     async function calculateTransactions() {
       setLoading(true)
+      if (!targetAmount) return // stick on loading
 
       function findNextTransaction(delta: number) {
         return validTransactionAmounts.findLast(
-          (a) => targetAmount > currentAmount + delta + a,
+          (a) => targetAmount >= currentAmount + delta + a,
         )
       }
 
@@ -75,6 +77,10 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
     return out + ` and then $${transactions.findLast(() => true)}`
   }
 
+  const handleAdjustTargetAmount = (addedAmount: number) => {
+    setTargetAmount(currentAmount + addedAmount)
+  }
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.dismissButton} onPress={handleDismiss}>
@@ -106,7 +112,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           <RefillPullableDisplay
             currentAmount={currentAmount}
             initialAddedAmount={calculatedAddition()}
-            handleUpdatedAmount={setTargetAmount}
+            handleUpdatedAmount={handleAdjustTargetAmount}
           />
           <View style={styles.billingSummaryContainer}>
             <Text style={styles.billingSummaryText}>
