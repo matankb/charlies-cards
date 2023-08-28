@@ -105,7 +105,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           </View>
           <RefillPullableDisplay
             currentAmount={currentAmount}
-            addedAmount={calculatedAddition()}
+            initialAddedAmount={calculatedAddition()}
             handleUpdatedAmount={setTargetAmount}
           />
           <View style={styles.billingSummaryContainer}>

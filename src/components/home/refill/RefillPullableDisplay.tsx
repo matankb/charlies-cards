@@ -4,7 +4,7 @@ import { PullableElement } from '../../PullableElement'
 
 interface RefillPullableDisplayProps {
   currentAmount: number
-  addedAmount: number
+  initialAddedAmount: number
   handleUpdatedAmount: (number) => void
 }
 
@@ -13,7 +13,7 @@ const DEFAULT_WIDTH = 22
 
 export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   currentAmount,
-  addedAmount: initialAddedAmount,
+  initialAddedAmount,
   handleUpdatedAmount,
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
