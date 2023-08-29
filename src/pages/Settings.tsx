@@ -22,7 +22,13 @@ export const SettingsPage = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Pressable onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={32} color="white" />
+          {({ pressed }) => (
+            <Ionicons
+              name="chevron-back"
+              size={32}
+              color={pressed ? '#E4E4E4' : 'white'}
+            />
+          )}
         </Pressable>
         <Text style={styles.headerText}>Settings</Text>
       </View>

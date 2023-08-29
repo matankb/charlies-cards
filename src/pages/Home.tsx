@@ -107,7 +107,13 @@ export const HomePage = ({ navigation }) => {
       >
         <Text style={styles.walletTitleText}>Cardlie Wallet</Text>
         <Pressable onPress={handleSettingsClick}>
-          <Entypo name="cog" size={25} color="white" />
+          {({ pressed }) => (
+            <Entypo
+              name="cog"
+              size={25}
+              color={pressed ? '#E4E4E4' : 'white'}
+            />
+          )}
         </Pressable>
       </View>
       <View style={styles.container} className="w-full">
