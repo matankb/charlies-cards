@@ -15,7 +15,7 @@ import { getRefillTarget } from '../../../controllers/settings'
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
-  handleRefill: (number) => void
+  handleRefill: (amount: number[]) => void
   cardName: string
   currentAmount: number
 }
@@ -124,7 +124,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             </Text>
             <PrimaryButton
               text={`Pay $${calculatedAddition()}`}
-              onSubmit={() => handleRefill(calculatedAddition())}
+              onSubmit={() => handleRefill(transactions)}
               buttonColor="#428A4E"
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"

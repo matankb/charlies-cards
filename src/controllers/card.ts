@@ -26,24 +26,30 @@ export async function getTransactionHistory() {
   )
   const transactionDocs = await getDocs(transactionQuery)
 
-  const transactions = transactionDocs.docs.map((transaction) => {
-    const data = transaction.data()
-    return {
-      date: data.date.toDate(),
-      amount: data.amount,
-    }
-  })
+  const transactions = transactionDocs.docs
+    .map((transaction) => {
+      const data = transaction.data()
+      return {
+        date: data.date.toDate(),
+        amount: data.amount,
+      }
+    })
+    .sort((a, b) => b.date - a.date)
 
   return transactions as Transaction[]
 }
 
-export async function addTransaction(transaction: Transaction) {
+export async function addTransaction(amount: number) {
   const accountId = await getAccountId()
+  const transaction = {
+    date: new Date(),
+    amount: amount,
+  }
 
   const db = getFirestore(app)
   const transactionsRef = collection(db, FirebaseTable.TRANSACTIONS)
   await setDoc(doc(transactionsRef), {
     ...transaction,
-    user: accountId,
+    accountId: accountId,
   })
 }

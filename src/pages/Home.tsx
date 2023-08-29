@@ -13,7 +13,11 @@ import { TransactionDisplay } from '../components/home/TransactionDisplay'
 import { PrimaryButton } from '../components/PrimaryButton'
 import React, { useEffect, useState } from 'react'
 import { RefillModal } from '../components/home/refill/RefillModal'
-import { Transaction, getTransactionHistory } from '../controllers/card'
+import {
+  Transaction,
+  addTransaction,
+  getTransactionHistory,
+} from '../controllers/card'
 import { CharlieCard, getCardInfo } from '../controllers/account'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import { ScreenName } from '../components/navigators/ScreenName'
@@ -22,24 +26,26 @@ export const HomePage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
-  const [transactions, setTransactions] = useState<Transaction[]>([]) // TODO: switch to null once loading is implemented
+  const [transactions, setTransactions] = useState<Transaction[]>(null)
   const [card, setCard] = useState<CharlieCard>(null)
   const [cardAmount, setCardAmount] = useState(null)
 
+  const fetchData = async () => {
+    setTransactions(await getTransactionHistory())
+    setCard(await getCardInfo())
+    // TODO: setCardAmount
+    setCardAmount(20.32)
+  }
+
   useEffect(() => {
-    async function fetchData() {
+    async function _fetchData() {
       setLoading(true)
-
-      setTransactions(await getTransactionHistory())
-      setCard(await getCardInfo())
-      // TODO: setCardAmount
-      setCardAmount(20.32)
-
+      await fetchData()
       setLoading(false)
     }
 
     setShowModal(false)
-    fetchData()
+    _fetchData()
   }, [])
 
   /* CALLBACK FUNCTIONS */
@@ -48,9 +54,14 @@ export const HomePage = ({ navigation }) => {
     setShowModal(true)
   }
 
-  const handleSubmitRefill = (amount: number) => {
-    console.log(`send refill for $${amount}`) // TODO: connect to actual refill
+  const handleSubmitRefill = async (amounts: number[]) => {
+    amounts.forEach((t) => {
+      console.log(`sending refill for $${t}`) // TODO: connect to actual refill
+      addTransaction(t)
+    })
+
     setShowModal(false)
+    fetchData()
   }
 
   const handleDismiss = () => {
