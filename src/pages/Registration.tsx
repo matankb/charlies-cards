@@ -6,6 +6,7 @@ import PaginationDot from 'react-native-animated-pagination-dot'
 import { CharlieCard } from '../components/registration/CharlieCard'
 import { CreditCard } from '../components/registration/CreditCard'
 import { setMyCharlieCredentials } from '../controllers/account'
+import { setRefillTarget } from '../controllers/settings'
 
 interface RegistrationPageProps {
   setRegisteredComplete: () => void
@@ -44,6 +45,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
 
   const handleFormSubmit = () => {
     setMyCharlieCredentials(userName, password, charlieCard, charlieCardName)
+    setRefillTarget(40) // default value
     setRegisteredComplete()
   }
 
