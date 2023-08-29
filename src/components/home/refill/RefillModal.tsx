@@ -1,4 +1,10 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { FC, useEffect, useState } from 'react'
 import { MoneyDisplay } from '../MoneyDisplay'
@@ -6,7 +12,6 @@ import { FontAwesome } from '@expo/vector-icons'
 import { RefillPullableDisplay } from './RefillPullableDisplay'
 import { PrimaryButton } from '../../PrimaryButton'
 import { getRefillTarget } from '../../../controllers/settings'
-import { LoadingSpinner } from '../../LoadingSpinner'
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
@@ -38,7 +43,6 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   useEffect(() => {
     async function calculateTransactions() {
       setLoading(true)
-      if (!targetAmount) return // stick on loading
 
       function findNextTransaction(delta: number) {
         return validTransactionAmounts.findLast(
@@ -58,7 +62,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       setLoading(false)
     }
 
-    calculateTransactions()
+    if (targetAmount) calculateTransactions()
   }, [targetAmount])
 
   const calculatedAddition = () => {
@@ -88,7 +92,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       </Pressable>
       <Text style={styles.refillTitle}>Refill {cardName}</Text>
       {loading ? (
-        <LoadingSpinner />
+        <ActivityIndicator size="large" style={styles.loadingSpinner} />
       ) : (
         <>
           <View className="flex flex-row justify-between align-center pt-5">
@@ -169,4 +173,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingBottom: 8,
   },
+  loadingSpinner: { position: 'absolute', top: '50%' },
 })
