@@ -7,6 +7,7 @@ import { SettingsPage } from '../../pages/Settings'
 import { AccountSettingsPage } from '../../pages/AccountSettings'
 import { FAQSettingsPage } from '../../pages/FAQSettings'
 import { CreditCardSettingsPage } from '../../pages/CreditCardSettings'
+import { RefillConfigurationPage } from '../../pages/RefillConfiguration'
 
 const Stack = createNativeStackNavigator()
 
@@ -31,6 +32,10 @@ export const StackNavigator: FC<StackNavigatorProps> = ({
           <Stack.Screen
             name={ScreenName.SETTINGS_ACCOUNT}
             component={AccountSettingsPage}
+          />
+          <Stack.Screen
+            name={ScreenName.SETTINGS_REFILL}
+            component={RefillConfigurationPage}
           />
           <Stack.Screen
             name={ScreenName.SETTINGS_CREDIT_CARD}

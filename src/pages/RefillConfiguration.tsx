@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { BackButton } from '../components/BackButton'
 
-export const FAQSettingsPage = ({ navigation }) => {
+export const RefillConfigurationPage = ({ navigation }) => {
   return (
     <>
       <View style={styles.headerContainer}>
         <BackButton onPress={() => navigation.goBack()} />
-        <Text style={styles.headerText}>FAQ</Text>
+        <Text style={styles.headerText}>Refill Configuration</Text>
       </View>
-      <Text style={styles.bodyText}>Coming soon.</Text>
+      <View></View>
     </>
   )
 }
@@ -26,12 +26,6 @@ const styles = StyleSheet.create({
     fontFamily: 'LatoSemibold',
     fontSize: 24,
     color: 'white',
-    alignSelf: 'center',
-  },
-  bodyText: {
-    padding: 24,
-    fontFamily: 'LatoSemibold',
-    fontSize: 24,
     alignSelf: 'center',
   },
 })

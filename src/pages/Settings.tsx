@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { ScreenName } from '../components/navigators/ScreenName'
+import { BackButton } from '../components/BackButton'
 
 export const SettingsPage = ({ navigation }) => {
   const InternalButton = ({ text, icon, onPress }) => {
@@ -21,15 +22,7 @@ export const SettingsPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Pressable onPress={() => navigation.goBack()}>
-          {({ pressed }) => (
-            <Ionicons
-              name="chevron-back"
-              size={32}
-              color={pressed ? '#E4E4E4' : 'white'}
-            />
-          )}
-        </Pressable>
+        <BackButton onPress={() => navigation.goBack()} />
         <Text style={styles.headerText}>Settings</Text>
       </View>
       <View style={styles.buttonContainer}>
@@ -38,8 +31,17 @@ export const SettingsPage = ({ navigation }) => {
           icon="user"
           onPress={() => navigation.navigate(ScreenName.SETTINGS_ACCOUNT)}
         />
+        <Pressable
+          style={({ pressed }) => {
+            return [styles.button, pressed && styles.pressedButton]
+          }}
+          onPress={() => navigation.navigate(ScreenName.SETTINGS_REFILL)}
+        >
+          <Entypo name="cycle" size={32} color="black" />
+          <Text style={styles.buttonText}>Refill Configuration</Text>
+        </Pressable>
         <InternalButton
-          text="Credit Cards"
+          text="Credit Card"
           icon="creditcard"
           onPress={() => navigation.navigate(ScreenName.SETTINGS_CREDIT_CARD)}
         />

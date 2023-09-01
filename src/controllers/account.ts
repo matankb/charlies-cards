@@ -14,6 +14,8 @@ enum StorageKey {
 export interface CharlieCard {
   number: string
   name: string
+  username: string
+  password: string
 }
 
 async function createAccountId() {
@@ -64,11 +66,13 @@ export async function getCardInfo() {
 
   const db = getFirestore(app)
   const transactionQuery = doc(db, FirebaseTable.USERS, accountId)
-  const data = await getDoc(transactionQuery)
+  const data = (await getDoc(transactionQuery)).data()
 
   const card = {
-    number: data.data().card,
-    name: data.data().cardName,
+    number: data.card,
+    name: data.cardName,
+    username: data.username,
+    password: data.password,
   }
 
   return card as CharlieCard

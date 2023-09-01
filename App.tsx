@@ -4,7 +4,6 @@ import * as SplashScreen from 'expo-splash-screen'
 import useRegistered from './src/hooks/registered-provider'
 import { NavigationContainer } from '@react-navigation/native'
 import { StackNavigator } from './src/components/navigators/PageProvider'
-// import { clear } from './src/controllers/settings'
 import useAddFonts from './src/hooks/load-fonts'
 
 SplashScreen.preventAutoHideAsync()
