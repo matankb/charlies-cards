@@ -21,8 +21,6 @@
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.1.0",
-    "lottie-ios": "^4.2.0",
-    "lottie-react-native": "^6.2.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
     "react-hook-form": "^7.45.4",
