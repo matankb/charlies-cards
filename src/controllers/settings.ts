@@ -14,6 +14,11 @@ enum StorageKey {
   REFILL_TARGET = 'refill-target',
 
   /**
+   * The monetary threshold to notify once the card's value goes below.
+   */
+  REFILL_THRESHOLD = 'refill-threshold',
+
+  /**
    * A boolean value indicating if the user has registered for the app yet.
    */
   IS_REGISTERED = 'is-registered',
@@ -40,6 +45,14 @@ export async function getRefillTarget() {
 
 export async function setRefillTarget(limit: number) {
   return AsyncStorage.setItem(StorageKey.REFILL_TARGET, limit.toString())
+}
+
+export async function getRefillThreshold() {
+  return AsyncStorage.getItem(StorageKey.REFILL_THRESHOLD)
+}
+
+export async function setRefillThreshold(threshold: number) {
+  return AsyncStorage.setItem(StorageKey.REFILL_THRESHOLD, threshold.toString())
 }
 
 export async function getIsRegistered() {

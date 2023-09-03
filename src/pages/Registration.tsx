@@ -10,6 +10,7 @@ import {
   CreditCardModel,
   setCreditCard,
   setRefillTarget,
+  setRefillThreshold,
 } from '../controllers/settings'
 
 interface RegistrationPageProps {
@@ -65,6 +66,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
     setMyCharlieCredentials(userName, password, charlieCard, charlieCardName)
     setCreditCard(creditCard)
     setRefillTarget(40) // default value
+    setRefillThreshold(10) // default value
     setRegisteredComplete()
   }
 

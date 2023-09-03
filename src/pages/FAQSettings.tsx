@@ -8,7 +8,7 @@ export const FAQSettingsPage = ({ navigation }) => {
         <BackButton onPress={() => navigation.goBack()} />
         <Text style={styles.headerText}>FAQ</Text>
       </View>
-      <Text style={styles.bodyText}>Coming soon.</Text>
+      <Text style={styles.bodyText}>Coming soon. So stop asking.</Text>
     </>
   )
 }
