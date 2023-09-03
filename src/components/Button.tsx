@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 
-interface SubmitButtonProps {
+interface ButtonProps {
   onSubmit: () => void
   text: string
   disabled?: boolean
@@ -10,7 +10,7 @@ interface SubmitButtonProps {
   disabledButtonColor?: string
 }
 
-export const PrimaryButton: FC<SubmitButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   onSubmit,
   text,
   disabled = false,

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { BackButton } from '../components/BackButton'
 import { useEffect, useState } from 'react'
-import { PrimaryButton } from '../components/PrimaryButton'
+import { Button } from '../components/Button'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import {
   getRefillTarget,
@@ -195,7 +195,7 @@ export const RefillConfigurationPage = ({ navigation }) => {
       )}
       {loading && <LoadingSpinner />}
       <View style={styles.submitContainer}>
-        <PrimaryButton
+        <Button
           onSubmit={saveConfiguration}
           disabled={disableSave()}
           text="Save Configuration"

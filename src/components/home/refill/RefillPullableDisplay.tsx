@@ -10,8 +10,12 @@ interface RefillPullableDisplayProps {
 
 const MAX_REFILL = 150
 const MIN_REFILL = 5
-// todo: make the 22 (min width) calculated based on digits in amount displayed
+// TODO: make the 22 (min width) calculated based on digits in amount displayed
 const DEFAULT_WIDTH = 22
+
+const roundTo5 = (x: number, floor = false) => {
+  return (floor ? Math.floor(x / 5) : Math.ceil(x / 5)) * 5
+}
 
 export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   currentAmount,
@@ -23,10 +27,6 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
 
   const currentAmountWidth = Math.max(DEFAULT_WIDTH, currentAmount / MAX_REFILL)
   const amountFromPullableWidth = (width: number) => {
-    function roundTo5(x: number, floor = false) {
-      return (floor ? Math.floor(x / 5) : Math.ceil(x / 5)) * 5
-    }
-
     const out = roundTo5(
       (MAX_REFILL - currentAmount) * (width / (100 - currentAmountWidth)),
     )

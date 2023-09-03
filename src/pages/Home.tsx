@@ -10,7 +10,7 @@ import {
 import { Entypo } from '@expo/vector-icons'
 import { BalanceDisplay } from '../components/home/BalanceDisplay'
 import { TransactionDisplay } from '../components/home/TransactionDisplay'
-import { PrimaryButton } from '../components/PrimaryButton'
+import { Button } from '../components/Button'
 import React, { useEffect, useState } from 'react'
 import { RefillModal } from '../components/home/refill/RefillModal'
 import {
@@ -138,7 +138,7 @@ export const HomePage = ({ navigation }) => {
           ))}
       </ScrollView>
       <View style={styles.submitButtonContainer}>
-        <PrimaryButton onSubmit={showRefill} text="Refill" disabled={loading} />
+        <Button onSubmit={showRefill} text="Refill" disabled={loading} />
       </View>
       {loading && <LoadingSpinner />}
       {showModal && <InternalModal />}

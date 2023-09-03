@@ -7,7 +7,7 @@ import {
   getCardInfo,
   setMyCharlieCredentials,
 } from '../controllers/account'
-import { PrimaryButton } from '../components/PrimaryButton'
+import { Button } from '../components/Button'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 
 export const AccountSettingsPage = ({ navigation }) => {
@@ -86,7 +86,7 @@ export const AccountSettingsPage = ({ navigation }) => {
       )}
       {loading && <LoadingSpinner />}
       <View style={styles.submitContainer}>
-        <PrimaryButton
+        <Button
           onSubmit={saveConfiguration}
           disabled={disableSave()}
           text="Save Configuration"

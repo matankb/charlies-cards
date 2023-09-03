@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { BackButton } from '../components/BackButton'
 import { FormTextInput } from '../components/form/FormTextInput'
 import { useEffect, useState } from 'react'
-import { PrimaryButton } from '../components/PrimaryButton'
+import { Button } from '../components/Button'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import {
   CreditCardModel,
@@ -149,7 +149,7 @@ export const CreditCardSettingsPage = ({ navigation }) => {
       )}
       {loading && <LoadingSpinner />}
       <View style={styles.submitContainer}>
-        <PrimaryButton
+        <Button
           onSubmit={saveConfiguration}
           disabled={disableSave()}
           text="Save Configuration"

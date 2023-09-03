@@ -1,16 +1,16 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { Dimensions, PanResponder, StyleSheet, View } from 'react-native'
 
+const SCREEN_WIDTH = Dimensions.get('window').width
+const COMPONENT_WIDTH = SCREEN_WIDTH - 24 // calculated from padding of RefillModal and container for this component
+
 // component with: max and min widths, updatePulling, updateWidth callbacks.
 interface PullableElementProps {
   min: number
   max: number
   startingValue: number
-  updateWidth: (number) => void
+  updateWidth: (number: number) => void
 }
-
-const SCREEN_WIDTH = Dimensions.get('window').width
-const COMPONENT_WIDTH = SCREEN_WIDTH - 24 // calculated from padding of RefillModal and container for this component
 
 export const PullableElement: FC<PullableElementProps> = ({
   min,

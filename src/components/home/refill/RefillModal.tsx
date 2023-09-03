@@ -5,13 +5,16 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign as AntDesignIcon } from '@expo/vector-icons'
 import { FC, useEffect, useState } from 'react'
 import { MoneyDisplay } from '../MoneyDisplay'
 import { FontAwesome } from '@expo/vector-icons'
 import { RefillPullableDisplay } from './RefillPullableDisplay'
-import { PrimaryButton } from '../../PrimaryButton'
+import { Button } from '../../Button'
 import { getRefillTarget } from '../../../controllers/settings'
+
+const VALID_TRANSACTION_AMOUNTS = [5, 10, 20, 25, 50]
+const MIN_DEFAULT_TRANSACTION = 10
 
 interface RefillModalPropsimport {
   handleDismiss: () => void
@@ -19,8 +22,6 @@ interface RefillModalPropsimport {
   cardName: string
   currentAmount: number
 }
-
-const validTransactionAmounts = [5, 10, 20, 25, 50]
 
 export const RefillModal: FC<RefillModalPropsimport> = ({
   handleDismiss,
@@ -35,9 +36,9 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   useEffect(() => {
     async function setInitialTarget() {
       const target = Number(await getRefillTarget())
-      setTargetAmount(Math.max(target, currentAmount + 10))
+      setTargetAmount(Math.max(target, currentAmount + MIN_DEFAULT_TRANSACTION))
     }
-    setInitialTarget()
+    setInitialTarget().catch(console.error)
   }, [])
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       setLoading(true)
 
       function findNextTransaction(delta: number) {
-        return validTransactionAmounts.findLast(
+        return VALID_TRANSACTION_AMOUNTS.findLast(
           (a) => targetAmount >= currentAmount + delta + a,
         )
       }
@@ -62,7 +63,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       setLoading(false)
     }
 
-    if (targetAmount) calculateTransactions()
+    if (targetAmount) calculateTransactions().catch(console.error)
   }, [targetAmount])
 
   const calculatedAddition = () => {
@@ -88,7 +89,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   return (
     <View style={styles.container}>
       <Pressable style={styles.dismissButton} onPress={handleDismiss}>
-        <AntDesign name="close" size={16} color="gray" />
+        <AntDesignIcon name="close" size={16} color="gray" />
       </Pressable>
       <Text style={styles.refillTitle}>Refill {cardName}</Text>
       {loading ? (
@@ -122,7 +123,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             <Text style={styles.billingSummaryText}>
               You will be billed {telegraphedTransactions()}
             </Text>
-            <PrimaryButton
+            <Button
               text={`Pay $${calculatedAddition()}`}
               onSubmit={() => handleRefill(transactions)}
               buttonColor="#428A4E"
