@@ -16,7 +16,7 @@ import { sendNotifications } from "./notifications";
 // User model in firebase
 export interface User {
   id: string;
-  email: string;
+  username: string;
   password: string;
   card: string;
   threshold: number;
@@ -30,20 +30,20 @@ export interface User {
 // TODO: chunk this, also
 
 async function shouldSendNotification(user: User) {
-  const { id, email, password, card, threshold } = user;
+  const { id, username, password, card, threshold } = user;
 
   try {
-    console.log(`Checking card ${card} for user ${email}`);
-    const value = await fetchCardValue(email, password, card);
+    console.log(`Checking card ${card} for user ${username}`);
+    const value = await fetchCardValue(username, password, card);
     console.log(``)
     if (value < threshold) {
-      logger.log(`Card ${card} is under threshold ${threshold}. Sending notification to user ${id}`);
+      logger.log(`User ${username} is under threshold ${threshold} (value: ${value}). Sending notification to user ${id}`);
       return true;
     } else {
       return false;
     }
   } catch (error) {
-    logger.error(`Error checking card ${card} for user ${id}: ${error}`)
+    logger.error(`Error checking card ${card} for user ${username}: ${error}`)
   }
 
   return false;
