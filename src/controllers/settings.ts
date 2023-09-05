@@ -32,7 +32,7 @@ export interface CreditCardModel {
 }
 
 export async function getCreditCard() {
-  return JSON.parse(await AsyncStorage.getItem(StorageKey.CREDIT_CARD))
+  return JSON.parse(await AsyncStorage.getItem(StorageKey.CREDIT_CARD)) as CreditCardModel;
 }
 
 export async function setCreditCard(card: CreditCardModel) {
