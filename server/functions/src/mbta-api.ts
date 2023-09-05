@@ -1,17 +1,17 @@
 import nodeFetch from "node-fetch";
-import fetchCookie from "fetch-cookie";
-import tough from 'tough-cookie'
+import * as fetchCookie from "fetch-cookie";
+import { CookieJar } from "tough-cookie";
 
 /** HTTP Utilities */
 
 /**
  * creates an instance of postPage with an encapsulated cookie store, which enables
  * the server to have multiple accounts logged in at once
- * @returns postPage, a function that sends a post request to a given MBTA page 
+ * @returns postPage, a function that sends a post request to a given MBTA page
  */
 function makePostPageFunction() {
-  const cookieJar = new tough.CookieJar();
-  const fetch = fetchCookie(nodeFetch, cookieJar);
+  const cookieJar = new CookieJar();
+  const fetch = fetchCookie(nodeFetch, cookieJar); // TODO: type this
 
   // postPage sends a post request to a given MBTA page
   return async function postPage(page: string, body?: any) {
@@ -57,8 +57,8 @@ function getCardValueFromHtml(html: string) {
   const SELECTED_ORDER_REGEX =
     /Selected Stored Value :<\/span><\/td><td><span class="product_value_text">(.+)<\/span>/;
 
-  const STORED_VALUE_PREFIX = '$';
-  const SELECTED_ORDER_PREFIX = 'Stored Value US$ ';
+  const STORED_VALUE_PREFIX = "$";
+  const SELECTED_ORDER_PREFIX = "Stored Value US$ ";
 
   const storedValueMatch = html.match(STORED_VALUE_REGEX)?.[1];
   const selectedOrderMatch = html.match(SELECTED_ORDER_REGEX)?.[1];

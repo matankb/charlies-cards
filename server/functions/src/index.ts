@@ -11,30 +11,47 @@ import * as logger from "firebase-functions/logger";
 import { onDocumentUpdated } from "firebase-functions/v2/firestore";
 import { firestore, initializeApp } from "firebase-admin";
 import { fetchCardValue } from "./mbta-api";
+import { sendNotifications } from "./notifications";
 
 // User model in firebase
-interface User {
+export interface User {
   id: string;
   email: string;
   password: string;
   card: string;
   threshold: number;
+  notificationToken: string;
 }
 
 /**
  * Check the given account and notify the user if their card value is under their threshold
  */
-async function checkAccountValue(user: User) {
+
+// TODO: chunk this, also
+
+async function shouldSendNotification(user: User) {
   const { id, email, password, card, threshold } = user;
 
   try {
+    console.log(`Checking card ${card} for user ${email}`);
     const value = await fetchCardValue(email, password, card);
+    console.log(``)
     if (value < threshold) {
       logger.log(`Card ${card} is under threshold ${threshold}. Sending notification to user ${id}`);
+      return true;
+    } else {
+      return false;
     }
   } catch (error) {
     logger.error(`Error checking card ${card} for user ${id}: ${error}`)
   }
+
+  return false;
+}
+
+async function filter<T>(arr: T[], callback: (element: T) => Promise<boolean>): Promise<T[]> {
+  const fail = Symbol()
+  return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail) as T[];
 }
 
 // todo: error handling
@@ -43,16 +60,10 @@ async function check() {
     .docs
     .map(doc => doc.data() as User);
 
-  await Promise.all(accounts.map(checkAccountValue));
-    
-  // const 
-  // .get().then((accounts) => {
+  const accountsToNotify = await filter(accounts, shouldSendNotification);
+
+  sendNotifications(accountsToNotify);
 }
-// for all accounts
-// get the account
-// get the card
-// get the current value
-// if the updated date is
 
 export const myFunction = onDocumentUpdated("test/lulm3Y8bxnbGv1umDEXR", () => {
   initializeApp();
