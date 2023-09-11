@@ -1,53 +1,46 @@
+import * as logger from "firebase-functions/logger";
 import { Expo } from "expo-server-sdk";
-import { User } from ".";
+
+import { User } from "./user";
 
 const expo = new Expo();
 
 export async function sendNotifications(users: User[]) {
-  const pushTokens = users.map((user) => user.notificationToken);
+  const pushTokens = users.map(user => user.notificationToken);
 
-  // Create the messages that you want to send to clients
-  let messages = [];
-  for (let pushToken of pushTokens) {
-    // Each push token looks like ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
+  const messages = [];
 
-    // Check that all your push tokens appear to be valid Expo push tokens
+  for (const pushToken of pushTokens) {
     if (!Expo.isExpoPushToken(pushToken)) {
-      console.error(`Push token ${pushToken} is not a valid Expo push token`);
+      logger.error(`Push token ${pushToken} is not a valid Expo push token`);
       continue;
     }
 
-    // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
     messages.push({
       to: pushToken,
-      body: "you have no money!!!!!",
+      body: "Your MBTA card is running low",
     });
-
-    let chunks = expo.chunkPushNotifications(messages);
-    let tickets = [];
-
-    // Send the chunks to the Expo push notification service. There are
-    // different strategies you could use. A simple one is to send one chunk at a
-    // time, which nicely spreads the load out over time:
-    for (let chunk of chunks) {
-      try {
-        let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-        console.log(ticketChunk);
-        tickets.push(...ticketChunk);
-        // NOTE: If a ticket contains an error code in ticket.details.error, you
-        // must handle it appropriately. The error codes are listed in the Expo
-        // documentation:
-        // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
-        for (let ticket of ticketChunk) {
-          if (ticket.status === "error") {
-            console.error(`There was an error sending a notification: ${ticket.details?.error}`);
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
   }
 
-  // TODO: handle recipets
+  // Expo allows batching notifications
+  const chunks = expo.chunkPushNotifications(messages);
+
+  for (const chunk of chunks) {
+    try {
+      // Send the chunks sequentially, instead of in parallel, to avoid rate limiting
+      const notificationResponses = await expo.sendPushNotificationsAsync(
+        chunk
+      );
+
+      for (const response of notificationResponses) {
+        if (response.status === "error") {
+          logger.error(
+            `There was an error sending a notification: ${response.details?.error}`
+          );
+        }
+      }
+    } catch (error) {
+      logger.error(error);
+    }
+  }
 }

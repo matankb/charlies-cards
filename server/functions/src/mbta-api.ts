@@ -11,13 +11,13 @@ import { CookieJar } from "tough-cookie";
  */
 function makePostPageFunction() {
   const cookieJar = new CookieJar();
-  const fetch = fetchCookie(nodeFetch, cookieJar); // TODO: type this
+  const fetch = fetchCookie(nodeFetch, cookieJar);
 
   // postPage sends a post request to a given MBTA page
   return async function postPage(page: string, body?: any) {
-    const MBTA_LOGIN_URL = `https://charliecard.mbta.com/CharlieCardWebProgram/pages/${page}IV.jsf`;
+    const url = `https://charliecard.mbta.com/CharlieCardWebProgram/pages/${page}IV.jsf`;
 
-    const response = await fetch(MBTA_LOGIN_URL, {
+    const response = await fetch(url, {
       method: "post",
       body,
     });
@@ -33,6 +33,8 @@ function buildRequestParams(
   params: Record<string, string>,
   formName = "main_form"
 ) {
+  
+  // MBTA forms all contain a hidden SUBMIT parameter
   const urlParams = new URLSearchParams({
     [`${formName}_SUBMIT`]: "1",
   });
