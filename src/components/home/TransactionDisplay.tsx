@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
+import { STANDARD_CHARLIE_GREEN } from '../../utils/constants'
 
 interface TransactionDisplayProps {
   transaction: {
@@ -15,7 +16,7 @@ export const TransactionDisplay: FC<TransactionDisplayProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <Icon name="arrow-up-right" size={25} color="#428A4E" />
+        <Icon name="arrow-up-right" size={25} color={STANDARD_CHARLIE_GREEN} />
       </View>
       <View className="flex justify-center gap-2">
         <Text style={styles.amountText}>${amount} Refill</Text>

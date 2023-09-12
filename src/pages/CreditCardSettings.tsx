@@ -70,8 +70,9 @@ export const CreditCardSettingsPage = ({ navigation }) => {
       card.cardNumber !== '' &&
       card.cvv !== '' &&
       card.expiration !== ''
-    )
+    ) {
       return true
+    }
 
     if (card.cardHolder === '') {
       setCardHolderError('Please enter a card holder.')

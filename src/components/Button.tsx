@@ -35,7 +35,7 @@ export const Button: FC<ButtonProps> = ({
           : buttonColor,
       }}
     >
-      <Text className="text-white text-center" style={styles.text}>
+      <Text className="text-center" style={styles.text}>
         {text}
       </Text>
     </Pressable>

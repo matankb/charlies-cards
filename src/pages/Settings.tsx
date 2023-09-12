@@ -3,6 +3,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { ScreenName } from '../components/navigators/ScreenName'
 import { BackButton } from '../components/BackButton'
+import { STANDARD_PRESSED_WHITE } from '../utils/constants'
 
 export const SettingsPage = ({ navigation }) => {
   const InternalButton = ({ text, icon, onPress }) => {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
   },
   pressedButton: {
-    backgroundColor: '#E4E4E4',
+    backgroundColor: STANDARD_PRESSED_WHITE,
   },
   buttonText: {
     fontFamily: 'LatoSemibold',

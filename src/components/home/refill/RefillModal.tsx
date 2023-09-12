@@ -12,6 +12,10 @@ import { FontAwesome } from '@expo/vector-icons'
 import { RefillPullableDisplay } from './RefillPullableDisplay'
 import { Button } from '../../Button'
 import { getRefillTarget } from '../../../controllers/settings'
+import {
+  STANDARD_CHARLIE_GREEN,
+  STANDARD_LIGHT_GRAY,
+} from '../../../utils/constants'
 
 const VALID_TRANSACTION_AMOUNTS = [5, 10, 20, 25, 50]
 const MIN_DEFAULT_TRANSACTION = 10
@@ -99,13 +103,13 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
           <View className="flex flex-row justify-between align-center pt-5">
             <MoneyDisplay
               amount={currentAmount}
-              dollarColor="#B8B8B8"
+              dollarColor={STANDARD_LIGHT_GRAY}
               shrinkCents
             />
             <FontAwesome
               name="long-arrow-right"
               size={32}
-              color="#B8B8B8"
+              color={STANDARD_LIGHT_GRAY}
               style={styles.transactionArrow}
             />
             <MoneyDisplay
@@ -126,7 +130,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             <Button
               text={`Pay $${calculatedAddition()}`}
               onSubmit={() => handleRefill(transactions)}
-              buttonColor="#428A4E"
+              buttonColor={STANDARD_CHARLIE_GREEN}
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"
               disabled={calculatedAddition() === 0}

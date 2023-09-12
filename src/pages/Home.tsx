@@ -21,6 +21,7 @@ import {
 import { CharlieCard, getCardInfo } from '../controllers/account'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import { ScreenName } from '../components/navigators/ScreenName'
+import { STANDARD_PRESSED_WHITE } from '../utils/constants'
 
 export const HomePage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
@@ -111,7 +112,7 @@ export const HomePage = ({ navigation }) => {
             <Entypo
               name="cog"
               size={25}
-              color={pressed ? '#E4E4E4' : 'white'}
+              color={pressed ? STANDARD_PRESSED_WHITE : 'white'}
             />
           )}
         </Pressable>

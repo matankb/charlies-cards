@@ -42,7 +42,8 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   const [charlieCardNameError, setCharlieCardNameError] = useState(undefined)
 
   // page 3 (credit card)
-  const [creditCard, _setCreditCard] = useState<CreditCardModel>(initialState)
+  const [creditCard, setCreditCardState] =
+    useState<CreditCardModel>(initialState)
   const [cardNumberError, setCardNumberError] = useState(undefined)
   const [cardHolderError, setCardHolderError] = useState(undefined)
   const [cvvError, setCvvError] = useState(undefined)
@@ -97,7 +98,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
     <CreditCard
       onSubmit={handleNextPage}
       card={creditCard}
-      setCard={_setCreditCard}
+      setCard={setCreditCardState}
       cardNumberError={cardNumberError}
       setCardNumberError={setCardNumberError}
       cardHolderError={cardHolderError}

@@ -10,7 +10,6 @@ export const LoadingSpinner = () => {
         overlayColor="rgba(0,0,0,0.5)"
         source={textLoading}
         animationStyle={{ width: 100, height: 100 }}
-        speed={1}
       />
     </View>
   )

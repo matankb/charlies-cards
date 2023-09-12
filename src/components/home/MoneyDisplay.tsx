@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { STANDARD_LIGHT_GRAY } from '../../utils/constants'
 
 interface MoneyDisplayProps {
   amount: number
@@ -11,7 +12,7 @@ interface MoneyDisplayProps {
 export const MoneyDisplay: FC<MoneyDisplayProps> = ({
   amount,
   dollarColor = 'black',
-  centColor = '#B8B8B8',
+  centColor = STANDARD_LIGHT_GRAY,
   shrinkCents = false,
 }) => {
   const [dollars, cents] = amount.toFixed(2).toString().split('.')

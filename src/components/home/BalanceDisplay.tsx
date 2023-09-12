@@ -2,6 +2,10 @@ import { View, Text, StyleSheet } from 'react-native'
 import { MoneyDisplay } from './MoneyDisplay'
 import { FC } from 'react'
 import { CharlieCard } from '../../controllers/account'
+import {
+  STANDARD_CHARLIE_GREEN,
+  STANDARD_LIGHT_GRAY,
+} from '../../utils/constants'
 
 interface BalanceDisplayProps {
   card: CharlieCard
@@ -20,9 +24,7 @@ export const BalanceDisplay: FC<BalanceDisplayProps> = ({
       style={styles.container}
     >
       <View className="pl-6">
-        <Text className="" style={styles.balanceTitle}>
-          CURRENT BALANCE
-        </Text>
+        <Text style={styles.balanceTitle}>CURRENT BALANCE</Text>
         {loading ? (
           <Text style={styles.loadingPlaceholderAmountText}>$ --</Text>
         ) : (
@@ -52,12 +54,12 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
     height: 35,
-    backgroundColor: '#428A4E',
+    backgroundColor: STANDARD_CHARLIE_GREEN,
     paddingLeft: 30,
     marginBottom: 10,
   },
   loadingPlaceholderAmountText: {
-    color: '#B8B8B8',
+    color: STANDARD_LIGHT_GRAY,
     fontFamily: 'LatoSemibold',
     fontSize: 28,
     marginVertical: 33,

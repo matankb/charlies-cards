@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { PullableElement } from '../../PullableElement'
+import { STANDARD_CHARLIE_GREEN } from '../../../utils/constants'
 
 interface RefillPullableDisplayProps {
   currentAmount: number
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   addedAmountContainer: {
-    backgroundColor: '#428A4E',
+    backgroundColor: STANDARD_CHARLIE_GREEN,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
