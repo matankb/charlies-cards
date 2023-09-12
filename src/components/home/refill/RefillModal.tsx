@@ -55,13 +55,14 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
         )
       }
 
-      let delta = 0
-      let tempTransactions = []
-      while (findNextTransaction(delta)) {
-        const next = findNextTransaction(delta)
-        delta += next
-        tempTransactions = tempTransactions.concat(next)
-      }
+      // let delta = 0
+      // let tempTransactions = []
+      // while (findNextTransaction(delta)) {
+      //   const next = findNextTransaction(delta)
+      //   delta += next
+      //   tempTransactions = tempTransactions.concat(next)
+      // }
+      const tempTransactions = [findNextTransaction(0)]
 
       setTransactions(tempTransactions)
       setLoading(false)
