@@ -139,7 +139,7 @@ export const HomePage = ({ navigation }) => {
           ))}
       </ScrollView>
       <View style={styles.submitButtonContainer}>
-        <Button onSubmit={showRefill} text="Refill" disabled={loading} />
+        <Button onPress={showRefill} text="Refill" disabled={loading} />
       </View>
       {loading && <LoadingSpinner />}
       {showModal && <InternalModal />}

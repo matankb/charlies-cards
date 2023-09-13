@@ -12,6 +12,11 @@ interface PullableElementProps {
   updateWidth: (number: number) => void
 }
 
+/**
+ * A PullableElement is an element that can be pulled, and handles the intermediate calculations to
+ * convert pixel width to percentage width, such that it can clamp the width it can be pulled to a given range
+ * from 0 - 100.
+ */
 export const PullableElement: FC<PullableElementProps> = ({
   min,
   max,

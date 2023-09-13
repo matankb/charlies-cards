@@ -84,7 +84,7 @@ export const CharlieCard: FC<CharlieCardProps> = ({
         />
       </View>
       <View style={{ marginBottom: 10 }}>
-        <Button onSubmit={trySubmit} text="Submit" />
+        <Button onPress={trySubmit} text="Submit" />
       </View>
     </View>
   )

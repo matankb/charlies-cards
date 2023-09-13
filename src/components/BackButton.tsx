@@ -1,10 +1,10 @@
-import { FC } from 'react'
+import { ComponentProps, FC } from 'react'
 import { Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { STANDARD_PRESSED_WHITE } from '../utils/constants'
 
 interface BackButtonProps {
-  onPress: () => void
+  onPress: ComponentProps<typeof Pressable>['onPress']
 }
 
 export const BackButton: FC<BackButtonProps> = ({ onPress }) => {

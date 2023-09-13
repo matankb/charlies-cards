@@ -15,7 +15,7 @@ export const RegistrationSuccess: FC<RegistrationSuccessProps> = ({
   return (
     <>
       <Text>Success registering</Text>
-      <Button onSubmit={handleSubmit} text="Use App" />
+      <Button onPress={handleSubmit} text="Use App" />
     </>
   )
 }

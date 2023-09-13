@@ -71,9 +71,10 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
     if (targetAmount) calculateTransactions().catch(console.error)
   }, [targetAmount])
 
-  const calculatedAddition = () => {
-    return transactions.reduce((partialSum, a) => partialSum + a, 0)
-  }
+  const calculatedAddition = transactions.reduce(
+    (partialSum, a) => partialSum + a,
+    0,
+  )
 
   const telegraphedTransactions = () => {
     if (transactions.length === 0) return '$0'
@@ -130,7 +131,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             </Text>
             <Button
               text={`Pay $${calculatedAddition()}`}
-              onSubmit={() => handleRefill(transactions)}
+              onPress={() => handleRefill(transactions)}
               buttonColor={STANDARD_CHARLIE_GREEN}
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"

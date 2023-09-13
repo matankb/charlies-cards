@@ -1,8 +1,8 @@
-import { FC, useState } from 'react'
+import { ComponentProps, FC, useState } from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 
 interface ButtonProps {
-  onSubmit: () => void
+  onPress: ComponentProps<typeof Pressable>['onPress']
   text: string
   disabled?: boolean
   buttonColor?: string
@@ -11,7 +11,7 @@ interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({
-  onSubmit,
+  onPress: onPress,
   text,
   disabled = false,
   buttonColor = '#155C96',
@@ -24,7 +24,7 @@ export const Button: FC<ButtonProps> = ({
     <Pressable
       className="w-full rounded-lg p-2"
       disabled={disabled}
-      onPress={onSubmit}
+      onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       style={{

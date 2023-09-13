@@ -196,7 +196,7 @@ export const RefillConfigurationPage = ({ navigation }) => {
       {loading && <LoadingSpinner />}
       <View style={styles.submitContainer}>
         <Button
-          onSubmit={saveConfiguration}
+          onPress={saveConfiguration}
           disabled={disableSave()}
           text="Save Configuration"
         />
