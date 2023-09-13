@@ -10,6 +10,19 @@ firebase-debug.*.log*
 # Firebase cache
 .firebase/
 
+# Firebase functions
+
+# Compiled JavaScript files
+functions/lib/**/*.js
+functions/lib/**/*.js.map
+
+# TypeScript v1 declaration files
+functions/typings/
+
+# Node.js dependency directory
+functions/node_modules/
+
+
 # Firebase config
 
 # Uncomment this if you'd like others to create their own Firebase project.

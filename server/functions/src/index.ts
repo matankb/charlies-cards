@@ -35,7 +35,7 @@ async function shouldSendNotification(user: User) {
   }
 }
 
-export const checkCardValues = onSchedule("every day 00:00", async () => {
+export const checkCardValues = onSchedule("every day 19:00", async () => {
   const users = await getUsers();
   const accountsToNotify = await filter(users, shouldSendNotification);
   sendNotifications(accountsToNotify);
