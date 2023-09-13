@@ -18,7 +18,8 @@ export async function sendNotifications(users: User[]) {
 
     messages.push({
       to: pushToken,
-      body: "Your MBTA card is running low",
+      title: "Your MBTA card is running low!",
+      body: "Tap here to refill your card.",
     });
   }
 
