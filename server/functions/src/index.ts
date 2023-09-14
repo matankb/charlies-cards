@@ -7,8 +7,6 @@ import { sendNotifications } from "./notifications";
 import { User, getUsers } from "./user";
 import { filter } from './utils';
 
-initializeApp();
-
 /**
  * Checks if the given account is under their threshold and should be notified
  * @returns true if the account should be notified
@@ -35,8 +33,12 @@ async function shouldSendNotification(user: User) {
   }
 }
 
-export const checkCardValues = onSchedule("every day 19:00", async () => {
+exports.checkCardValues = onSchedule("every day 19:00", async () => {
+  initializeApp();
   const users = await getUsers();
   const accountsToNotify = await filter(users, shouldSendNotification);
   sendNotifications(accountsToNotify);
 })
+
+// All functions must be exported from index
+export * from './client-api';
