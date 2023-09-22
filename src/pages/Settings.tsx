@@ -5,21 +5,21 @@ import { ScreenName } from '../components/navigators/ScreenName'
 import { BackButton } from '../components/BackButton'
 import { STANDARD_PRESSED_WHITE } from '../utils/constants'
 
-export const SettingsPage = ({ navigation }) => {
-  const InternalButton = ({ text, icon, onPress }) => {
-    return (
-      <Pressable
-        style={({ pressed }) => {
-          return [styles.button, pressed && styles.pressedButton]
-        }}
-        onPress={onPress}
-      >
-        <AntDesign name={icon} size={32} color="black" />
-        <Text style={styles.buttonText}>{text}</Text>
-      </Pressable>
-    )
-  }
+const InternalButton = ({ text, icon, onPress }) => {
+  return (
+    <Pressable
+      style={({ pressed }) => {
+        return [styles.button, pressed && styles.pressedButton]
+      }}
+      onPress={onPress}
+    >
+      <AntDesign name={icon} size={32} color="black" />
+      <Text style={styles.buttonText}>{text}</Text>
+    </Pressable>
+  )
+}
 
+export const SettingsPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
