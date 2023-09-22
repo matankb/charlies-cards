@@ -103,7 +103,7 @@ export const CreditCardSettingsPage = ({ navigation }) => {
 
     setCreditCard(card)
     setLoading(true)
-    load()
+    load().catch((error) => console.log(error))
   }
 
   return (

@@ -86,8 +86,6 @@ export const RefillConfigurationPage = ({ navigation }) => {
     return String((Number(threshold || 0) + Number(target || 0)) / 2)
   }
 
-  useEffect(() => console.log(threshold), [threshold])
-
   return (
     <>
       <View style={styles.headerContainer}>

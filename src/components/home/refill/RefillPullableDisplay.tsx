@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useLayoutEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { PullableElement } from '../../PullableElement'
 import { STANDARD_CHARLIE_GREEN } from '../../../utils/constants'
@@ -12,7 +12,7 @@ interface RefillPullableDisplayProps {
 const MAX_REFILL = 150
 const MIN_REFILL = 5
 // TODO: make the 22 (min width) calculated based on digits in amount displayed
-const DEFAULT_WIDTH = 22
+const MIN_WIDTH = 22
 
 const roundTo5 = (x: number, floor = false) => {
   return (floor ? Math.floor(x / 5) : Math.ceil(x / 5)) * 5
@@ -24,9 +24,9 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   handleUpdatedAmount,
 }) => {
   const [addedAmount, setAddedAmount] = useState(initialAddedAmount) // $
-  const [pulledWidth, setPulledWidth] = useState(null)
+  const [pulledWidth, setPulledWidth] = useState(null) // %
 
-  const currentAmountWidth = Math.max(DEFAULT_WIDTH, currentAmount / MAX_REFILL)
+  const currentAmountWidth = Math.max(MIN_WIDTH, currentAmount / MAX_REFILL)
   const amountFromPullableWidth = (width: number) => {
     const out = roundTo5(
       (MAX_REFILL - currentAmount) * (width / (100 - currentAmountWidth)),
@@ -42,7 +42,7 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
     return (100 - currentAmountWidth) * (amount / (MAX_REFILL - currentAmount))
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPulledWidth(pullableWidthFromAmount(initialAddedAmount))
   }, [])
 
@@ -79,7 +79,7 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
           min={pullableWidthFromAmount(MIN_REFILL)}
           max={100 - currentAmountWidth}
           startingValue={pullableWidthFromAmount(addedAmount)}
-          updateWidth={handleUpdatePulledWidth}
+          onChange={handleUpdatePulledWidth}
         />
       </View>
     </View>

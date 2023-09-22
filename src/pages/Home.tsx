@@ -1,18 +1,9 @@
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { BalanceDisplay } from '../components/home/BalanceDisplay'
 import { TransactionDisplay } from '../components/home/TransactionDisplay'
 import { Button } from '../components/Button'
 import React, { useEffect, useState } from 'react'
-import { RefillModal } from '../components/home/refill/RefillModal'
 import {
   Transaction,
   addTransaction,
@@ -22,6 +13,7 @@ import { CharlieCard, getCardInfo } from '../controllers/account'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import { ScreenName } from '../components/navigators/ScreenName'
 import { STANDARD_PRESSED_WHITE } from '../utils/constants'
+import { ModalWrapper } from '../components/home/refill/ModalWrapper'
 
 export const HomePage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
@@ -46,7 +38,7 @@ export const HomePage = ({ navigation }) => {
     }
 
     setShowModal(false)
-    _fetchData()
+    _fetchData().catch((error) => console.log(error))
   }, [])
 
   /* CALLBACK FUNCTIONS */
@@ -71,33 +63,6 @@ export const HomePage = ({ navigation }) => {
 
   const handleSettingsClick = () => {
     navigation.navigate(ScreenName.SETTINGS)
-  }
-
-  /* RENDERING FUNCTIONS */
-
-  const InternalModal = () => {
-    return (
-      <>
-        <Modal
-          visible={showModal}
-          onRequestClose={handleDismiss}
-          transparent
-          animationType="slide"
-          onDismiss={handleDismiss}
-        >
-          <TouchableWithoutFeedback onPress={handleDismiss}>
-            <View style={styles.modalDismissBackground} />
-          </TouchableWithoutFeedback>
-          <RefillModal
-            handleDismiss={handleDismiss}
-            handleRefill={handleSubmitRefill}
-            cardName={card.name}
-            currentAmount={cardAmount}
-          />
-        </Modal>
-        <View style={styles.modalBackground} />
-      </>
-    )
   }
 
   return (
@@ -142,20 +107,20 @@ export const HomePage = ({ navigation }) => {
         <Button onPress={showRefill} text="Refill" disabled={loading} />
       </View>
       {loading && <LoadingSpinner />}
-      {showModal && <InternalModal />}
+      {showModal && (
+        <ModalWrapper
+          cardAmount={cardAmount}
+          cardName={card.name}
+          handleDismiss={handleDismiss}
+          handleSubmitRefill={handleSubmitRefill}
+          showModal={showModal}
+        />
+      )}
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  modalBackground: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'black',
-    opacity: 0.5,
-    zIndex: 2,
-  },
   walletTitleText: { fontFamily: 'Lato', fontSize: 20, color: 'white' },
   container: {
     position: 'absolute',
@@ -182,12 +147,5 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-  },
-  modalDismissBackground: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
 })

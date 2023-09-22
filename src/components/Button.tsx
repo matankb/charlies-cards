@@ -11,7 +11,7 @@ interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({
-  onPress: onPress,
+  onPress,
   text,
   disabled = false,
   buttonColor = '#155C96',

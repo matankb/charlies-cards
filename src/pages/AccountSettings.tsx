@@ -31,7 +31,7 @@ export const AccountSettingsPage = ({ navigation }) => {
   }
 
   useEffect(() => {
-    load()
+    load().catch((error) => console.log(error))
   }, [])
 
   const disableSave = () => {
@@ -58,7 +58,7 @@ export const AccountSettingsPage = ({ navigation }) => {
 
     setMyCharlieCredentials(userName, password, card.number, card.name)
     setLoading(true)
-    load()
+    load().catch((error) => console.log(error))
   }
 
   return (

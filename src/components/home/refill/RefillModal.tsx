@@ -46,7 +46,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   }, [])
 
   useEffect(() => {
-    async function calculateTransactions() {
+    function calculateTransactions() {
       setLoading(true)
 
       function findNextTransaction(delta: number) {
@@ -68,7 +68,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
       setLoading(false)
     }
 
-    if (targetAmount) calculateTransactions().catch(console.error)
+    if (targetAmount) calculateTransactions()
   }, [targetAmount])
 
   const calculatedAddition = transactions.reduce(
@@ -115,14 +115,14 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
               style={styles.transactionArrow}
             />
             <MoneyDisplay
-              amount={currentAmount + calculatedAddition()}
+              amount={currentAmount + calculatedAddition}
               centColor="black"
               shrinkCents
             />
           </View>
           <RefillPullableDisplay
             currentAmount={currentAmount}
-            initialAddedAmount={calculatedAddition()}
+            initialAddedAmount={calculatedAddition}
             handleUpdatedAmount={handleAdjustTargetAmount}
           />
           <View style={styles.billingSummaryContainer}>
@@ -130,12 +130,12 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
               You will be billed {telegraphedTransactions()}
             </Text>
             <Button
-              text={`Pay $${calculatedAddition()}`}
+              text={`Pay $${calculatedAddition}`}
               onPress={() => handleRefill(transactions)}
               buttonColor={STANDARD_CHARLIE_GREEN}
               pressedButtonColor="#336B3C"
               disabledButtonColor="#65B772"
-              disabled={calculatedAddition() === 0}
+              disabled={calculatedAddition === 0}
             />
           </View>
         </>
