@@ -1,18 +1,12 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import { Dimensions, PanResponder, StyleSheet, View } from 'react-native'
-
-const SCREEN_WIDTH = Dimensions.get('window').width
-const COMPONENT_WIDTH = SCREEN_WIDTH - 24 // calculated from padding of RefillModal and container for this component
-
-const pixelsToPercentWidth = (pixels: number) => {
-  return (pixels / COMPONENT_WIDTH) * 100
-}
+import { PanResponder, StyleSheet, View } from 'react-native'
 
 // component with: max and min widths, updateWidth callbacks.
 interface PullableElementProps {
   min: number
   max: number
   startingValue: number
+  componentWidth: number
   onChange: (number: number) => void
 }
 
@@ -25,6 +19,7 @@ export const PullableElement: FC<PullableElementProps> = ({
   min,
   max,
   startingValue,
+  componentWidth,
   onChange,
 }) => {
   const pulledWidth = useRef(startingValue) // %
@@ -42,6 +37,10 @@ export const PullableElement: FC<PullableElementProps> = ({
     () => onChange(pulledWidth.current + tempPulledWidth),
     [pulledWidth, tempPulledWidth],
   )
+
+  const pixelsToPercentWidth = (pixels: number) => {
+    return (pixels / componentWidth) * 100
+  }
 
   /* PULLING CALCULATIONS */
 

@@ -1,5 +1,5 @@
 import { FC, useLayoutEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, LayoutChangeEvent } from 'react-native'
 import { PullableElement } from '../../PullableElement'
 import { STANDARD_CHARLIE_GREEN } from '../../../utils/constants'
 
@@ -13,6 +13,7 @@ const MAX_REFILL = 150
 const MIN_REFILL = 5
 // TODO: make the 22 (min width) calculated based on digits in amount displayed
 const MIN_WIDTH = 22
+const CONTAINER_PADDING = 8
 
 const roundTo5 = (x: number, floor = false) => {
   return (floor ? Math.floor(x / 5) : Math.ceil(x / 5)) * 5
@@ -25,6 +26,7 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
 }) => {
   const [addedAmount, setAddedAmount] = useState(initialAddedAmount) // $
   const [pulledWidth, setPulledWidth] = useState(null) // %
+  const [componentWidth, setComponentWidth] = useState(null)
 
   const currentAmountWidth = Math.max(MIN_WIDTH, currentAmount / MAX_REFILL)
   const amountFromPullableWidth = (width: number) => {
@@ -53,10 +55,15 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
     setPulledWidth(width)
   }
 
+  const fetchPadding = (event: LayoutChangeEvent) => {
+    setComponentWidth(event.nativeEvent.layout.width - CONTAINER_PADDING * 2)
+  }
+
   return (
     <View
       className="flex flex-row justify-start w-full"
       style={styles.container}
+      onLayout={fetchPadding}
     >
       <View
         className="rounded-l-xl bg-blue py-5 px-2.5"
@@ -75,12 +82,15 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
         <Text numberOfLines={1} style={styles.addedAmountText}>
           +${addedAmount}
         </Text>
-        <PullableElement
-          min={pullableWidthFromAmount(MIN_REFILL)}
-          max={100 - currentAmountWidth}
-          startingValue={pullableWidthFromAmount(addedAmount)}
-          onChange={handleUpdatePulledWidth}
-        />
+        {componentWidth && (
+          <PullableElement
+            min={pullableWidthFromAmount(MIN_REFILL)}
+            max={100 - currentAmountWidth}
+            startingValue={pullableWidthFromAmount(addedAmount)}
+            componentWidth={componentWidth}
+            onChange={handleUpdatePulledWidth}
+          />
+        )}
       </View>
     </View>
   )
@@ -90,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ECECEC',
     borderRadius: 16,
-    padding: 8,
+    padding: CONTAINER_PADDING,
   },
   currentAmountText: {
     color: 'white',
