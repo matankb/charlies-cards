@@ -29,6 +29,20 @@ export const RefillPullableDisplay: FC<RefillPullableDisplayProps> = ({
   const [componentWidth, setComponentWidth] = useState(null)
 
   const currentAmountWidth = Math.max(MIN_WIDTH, currentAmount / MAX_REFILL)
+
+  /**
+   * This function handles extracting the monetary value from the width of the
+   * {@link PullableElement} (given as a parameter).
+   *
+   * Since monetary values are measured in increments of at minimum $5, the
+   * first step is to clamp the value to the nearest $5.
+   * The second step is to clamp it within the boundaries of what's possible
+   * for the value to be. Since this amount should be the amount added to the
+   * card, we need to take into account the card's upper bound:
+   * A card maxes out at $150, so if we have $20.32 on the card already,
+   * the most we can add to it is 150 - 20.32 = 129.68 -> rounded down to the
+   * nearest $5, so $125.
+   */
   const amountFromPullableWidth = (width: number) => {
     const out = roundTo5(
       (MAX_REFILL - currentAmount) * (width / (100 - currentAmountWidth)),
