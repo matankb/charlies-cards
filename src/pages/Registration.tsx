@@ -6,9 +6,22 @@ import PaginationDot from 'react-native-animated-pagination-dot'
 import { CharlieCard } from '../components/registration/CharlieCard'
 import { CreditCard } from '../components/registration/CreditCard'
 import { setMyCharlieCredentials } from '../controllers/account'
+import {
+  CreditCardModel,
+  setCreditCard,
+  setRefillTarget,
+  setRefillThreshold,
+} from '../controllers/settings'
 
 interface RegistrationPageProps {
   setRegisteredComplete: () => void
+}
+
+const initialState: CreditCardModel = {
+  cardNumber: '',
+  cardHolder: '',
+  expiration: '',
+  cvv: '',
 }
 
 export const RegistrationPage: FC<RegistrationPageProps> = ({
@@ -25,6 +38,16 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   // page 2 state (charlie card)
   const [charlieCard, setCharlieCard] = useState('')
   const [charlieCardError, setCharlieCardError] = useState(undefined)
+  const [charlieCardName, setCharlieCardName] = useState('')
+  const [charlieCardNameError, setCharlieCardNameError] = useState(undefined)
+
+  // page 3 (credit card)
+  const [creditCard, setCreditCardState] =
+    useState<CreditCardModel>(initialState)
+  const [cardNumberError, setCardNumberError] = useState(undefined)
+  const [cardHolderError, setCardHolderError] = useState(undefined)
+  const [cvvError, setCvvError] = useState(undefined)
+  const [expirationError, setExpirationError] = useState(undefined)
 
   const handleNextPage = () => {
     if (index === pages.length - 1) {
@@ -41,7 +64,10 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   }
 
   const handleFormSubmit = () => {
-    setMyCharlieCredentials(userName, password, charlieCard)
+    setMyCharlieCredentials(userName, password, charlieCard, charlieCardName)
+    setCreditCard(creditCard)
+    setRefillTarget(40) // default value
+    setRefillThreshold(10) // default value
     setRegisteredComplete()
   }
 
@@ -61,11 +87,28 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
       onSubmit={handleNextPage}
       card={charlieCard}
       setCard={setCharlieCard}
-      error={charlieCardError}
-      setError={setCharlieCardError}
+      cardError={charlieCardError}
+      setCardError={setCharlieCardError}
+      cardName={charlieCardName}
+      setCardName={setCharlieCardName}
+      cardNameError={charlieCardNameError}
+      setCardNameError={setCharlieCardNameError}
       handlePrevPage={handlePrevPage}
     />,
-    <CreditCard onSubmit={handleNextPage} handlePrevPage={handlePrevPage} />,
+    <CreditCard
+      onSubmit={handleNextPage}
+      card={creditCard}
+      setCard={setCreditCardState}
+      cardNumberError={cardNumberError}
+      setCardNumberError={setCardNumberError}
+      cardHolderError={cardHolderError}
+      setCardHolderError={setCardHolderError}
+      cvvError={cvvError}
+      setCvvError={setCvvError}
+      expirationError={expirationError}
+      setExpirationError={setExpirationError}
+      handlePrevPage={handlePrevPage}
+    />,
     <RegistrationSuccess handleSubmit={handleFormSubmit} />,
   ]
 

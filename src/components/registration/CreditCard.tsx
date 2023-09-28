@@ -1,32 +1,39 @@
 import { View, Text } from 'react-native'
-import { FC, useState } from 'react'
-import { SubmitButton } from '../form/SubmitButton'
+import { FC } from 'react'
+import { Button } from '../Button'
 import { FormTextInput } from '../form/FormTextInput'
 import { CreditCardModel } from '../../controllers/settings'
 import { RegisterFlowTitle } from '../form/RegisterFlowTitle'
 
 interface CreditCardProps {
   onSubmit: () => void
+  card: CreditCardModel
+  setCard: (v: CreditCardModel) => void
+  cardNumberError: string
+  setCardNumberError: (v: string) => void
+  cardHolderError: string
+  setCardHolderError: (v: string) => void
+  cvvError: string
+  setCvvError: (v: string) => void
+  expirationError: string
+  setExpirationError: (v: string) => void
   handlePrevPage: () => void
-}
-
-const initialState: CreditCardModel = {
-  cardNumber: '',
-  cardHolder: '',
-  expiration: '',
-  cvv: '',
 }
 
 export const CreditCard: FC<CreditCardProps> = ({
   onSubmit,
+  card,
+  setCard,
+  cardNumberError,
+  setCardNumberError,
+  cardHolderError,
+  setCardHolderError,
+  cvvError,
+  setCvvError,
+  expirationError,
+  setExpirationError,
   handlePrevPage,
 }) => {
-  const [card, setCard] = useState(initialState)
-  const [cardNumberError, setCardNumberError] = useState(undefined)
-  const [cardHolderError, setCardHolderError] = useState(undefined)
-  const [cvvError, setCvvError] = useState(undefined)
-  const [expirationError, setExpirationError] = useState(undefined)
-
   const updateCardNumber = (value: string) => {
     setCardNumberError(undefined)
     setCard({ ...card, cardNumber: value })
@@ -129,7 +136,9 @@ export const CreditCard: FC<CreditCardProps> = ({
           know your credit card information.
         </Text>
       </View>
-      <SubmitButton onSubmit={trySubmit} text="Submit" />
+      <View style={{ marginBottom: 10 }}>
+        <Button onPress={trySubmit} text="Submit" />
+      </View>
     </View>
   )
 }

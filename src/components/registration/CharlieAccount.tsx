@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import { FC } from 'react'
-import { SubmitButton } from '../form/SubmitButton'
+import { Button } from '../Button'
 import { FormTextInput } from '../form/FormTextInput'
 import { RegisterFlowTitle } from '../form/RegisterFlowTitle'
 
@@ -90,7 +90,9 @@ export const CharlieAccount: FC<CharlieAccountProps> = ({
           If you don’t have a MyCharlie account, click here to create one.
         </Text>
       </View>
-      <SubmitButton onSubmit={trySubmit} text="Submit" />
+      <View style={{ marginBottom: 10 }}>
+        <Button onPress={trySubmit} text="Submit" />
+      </View>
     </View>
   )
 }
