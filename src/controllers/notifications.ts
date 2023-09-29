@@ -7,10 +7,6 @@ import Constants from "expo-constants";
  * @returns the notification token
  */
 export async function getNotificationToken() {
-  return 'abc'
-}
-
-export async function registerPushNotifications() {
   // cannot register for push notifications in a simulator
   if (!Device.isDevice) {
     return null;
