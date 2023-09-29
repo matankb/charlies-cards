@@ -22,6 +22,8 @@ functions/typings/
 # Node.js dependency directory
 functions/node_modules/
 
+# Firebase env file
+charlie-cards-*.json
 
 # Firebase config
 
