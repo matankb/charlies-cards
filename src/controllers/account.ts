@@ -1,5 +1,4 @@
-import { FirebaseTable, app } from './firebase'
-import { doc, getFirestore, setDoc, getDoc } from 'firebase/firestore'
+import { callFirebaseFunction } from './firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import uuid from 'react-native-uuid'
 import { getNotificationToken } from './notifications'
@@ -48,25 +47,21 @@ export async function setMyCharlieCredentials(
   const notificationToken = await getNotificationToken()
   const id = await getAccountId()
 
-  const db = getFirestore(app)
-  const userDoc = doc(db, FirebaseTable.USERS, id)
-
-  return setDoc(userDoc, {
+  const data = {
     id,
     username,
     password,
     card,
     cardName,
     notificationToken,
-  })
+  }
+
+  return callFirebaseFunction('setUser', data)
 }
 
 export async function getCardInfo() {
   const accountId = await getAccountId()
-
-  const db = getFirestore(app)
-  const transactionQuery = doc(db, FirebaseTable.USERS, accountId)
-  const data = (await getDoc(transactionQuery)).data()
+  const data = await callFirebaseFunction('getUser', { id: accountId })
 
   const card = {
     number: data.card,
@@ -76,4 +71,26 @@ export async function getCardInfo() {
   }
 
   return card as CharlieCard
+}
+
+/**
+ * The refill threshold is stored on the backend, since the backend
+ * needs it to calculate if a notification should be sent
+ */
+export async function getRefillThreshold() {
+  const accountId = await getAccountId()
+  const data = await callFirebaseFunction('getUser', { id: accountId })
+
+  return data.threshold
+}
+
+export async function setRefillThreshold(threshold: number) {
+  const accountId = await getAccountId()
+
+  const data = {
+    id: accountId,
+    threshold,
+  }
+
+  return callFirebaseFunction('setUser', data)
 }

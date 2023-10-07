@@ -10,10 +10,10 @@ export enum FirebaseTable {
 
 // User model in firebase
 export interface User {
-  id: string;
-  username: string;
-  password: string;
-  card: string;
-  threshold: number;
-  notificationToken: string;
+  id: string
+  username: string
+  password: string
+  card: string
+  threshold: number
+  notificationToken: string
 }

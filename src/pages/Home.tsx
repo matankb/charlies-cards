@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import {
   Transaction,
   addTransaction,
+  getCardValue,
   getTransactionHistory,
 } from '../controllers/card'
 import { CharlieCard, getCardInfo } from '../controllers/account'
@@ -24,10 +25,14 @@ export const HomePage = ({ navigation }) => {
   const [cardAmount, setCardAmount] = useState(null)
 
   const fetchData = async () => {
-    setTransactions(await getTransactionHistory())
-    setCard(await getCardInfo())
-    // TODO: setCardAmount
-    setCardAmount(20.32)
+    // fetch data from different sources in parallel
+    const requests = [
+      getTransactionHistory().then(setTransactions),
+      getCardInfo().then(setCard),
+      getCardValue().then(setCardAmount),
+    ]
+
+    return Promise.all(requests)
   }
 
   useEffect(() => {

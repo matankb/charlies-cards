@@ -5,12 +5,14 @@ import { RegistrationSuccess } from '../components/registration/RegistrationSucc
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { CharlieCard } from '../components/registration/CharlieCard'
 import { CreditCard } from '../components/registration/CreditCard'
-import { setMyCharlieCredentials } from '../controllers/account'
+import {
+  setMyCharlieCredentials,
+  setRefillThreshold,
+} from '../controllers/account'
 import {
   CreditCardModel,
   setCreditCard,
   setRefillTarget,
-  setRefillThreshold,
 } from '../controllers/settings'
 
 interface RegistrationPageProps {
