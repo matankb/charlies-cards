@@ -14,9 +14,13 @@ export const AccountSettingsPage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
   const [userName, setUsername] = useState(null)
   const [password, setPassword] = useState(null)
+  const [cardNumber, setCardNumber] = useState(null)
+  const [cardName, setCardName] = useState(null)
 
   const [userError, setUserError] = useState(null)
   const [passwordError, setPasswordError] = useState(null)
+  const [cardNumberError, setCardNumberError] = useState(null)
+  const [cardNameError, setCardNameError] = useState(null)
 
   const [card, setCard] = useState<CharlieCard>(null)
 
@@ -26,6 +30,8 @@ export const AccountSettingsPage = ({ navigation }) => {
     setCard(card)
     setUsername(card.username)
     setPassword(card.password)
+    setCardNumber(card.number)
+    setCardName(card.name)
 
     setLoading(false)
   }
@@ -35,7 +41,12 @@ export const AccountSettingsPage = ({ navigation }) => {
   }, [])
 
   const disableSave = () => {
-    return !card || (card.username === userName && card.password === password)
+    return (
+      !card ||
+      (card.username === userName && card.password === password) ||
+      card.number === cardNumber ||
+      card.name === cardName
+    )
   }
 
   const validateInputs = () => {
@@ -45,6 +56,14 @@ export const AccountSettingsPage = ({ navigation }) => {
 
     if (password === '') {
       setPasswordError('Please provide a password')
+    }
+
+    if (cardNumber === '') {
+      setCardNumberError('Please provide a card number')
+    }
+
+    if (cardName === '') {
+      setCardNameError('Please provide a card name')
     }
 
     return !(userName === '' || password === '')
@@ -81,6 +100,19 @@ export const AccountSettingsPage = ({ navigation }) => {
             isSecure
             onChange={setPassword}
             error={passwordError}
+          />
+          <FormTextInput
+            title="MyCharlie Card Number:"
+            value={cardNumber}
+            onChange={setCardNumber}
+            error={cardNumberError}
+          />
+          <FormTextInput
+            title="MyCharlie Card Name:"
+            value={cardName}
+            isSecure
+            onChange={setCardName}
+            error={cardNameError}
           />
         </View>
       )}
