@@ -1,3 +1,4 @@
+import { getCardInfo } from './account'
 import { getCreditCard } from './settings'
 
 const sharedInjectableJavascript = /* javascript */ `
@@ -72,9 +73,10 @@ const sharedInjectableJavascript = /* javascript */ `
 `
 
 export const getStoredValueInjectableJavascript = async () => {
-  const mbtaUsername = await '205matan@gmail.com'
-  const mbtaPassword = await 'VQP!bwz8nuz-pwf5waz'
-  const card = await '05-313177526'
+  const cardInfo = await getCardInfo()
+  const mbtaUsername = cardInfo.username
+  const mbtaPassword = cardInfo.password
+  const card = cardInfo.number
 
   return /* javascript */ `
     (async () => {
@@ -109,14 +111,18 @@ export const getStoredValueInjectableJavascript = async () => {
   `
 }
 
-export const refillInjectableJavascript = async (amount: number) => {
-  // these will be integrated into the account/settings controller
-  const mbtaUsername = await ''
-  const mbtaPassword = await ''
-  const card = await ''
+export const refillInjectableJavascript = async ({
+  amount,
+}: {
+  amount: number
+}) => {
+  const cardInfo = await getCardInfo()
+  const mbtaUsername = cardInfo.username
+  const mbtaPassword = cardInfo.password
+  const card = cardInfo.number
 
   const creditCard = await getCreditCard()
-  const creditCardType = creditCard.cardType
+  const creditCardType = creditCard.type
   const creditCardNumber = creditCard.cardNumber
   const creditCardSecurityCode = creditCard.cvv
   const [creditCardExpirationMonth, creditCardExpirationYear] =

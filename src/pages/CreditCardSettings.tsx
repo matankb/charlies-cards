@@ -9,6 +9,7 @@ import {
   getCreditCard,
   setCreditCard,
 } from '../controllers/settings'
+import { FormSelectInput } from '../components/form/FormSelectInput'
 
 export const CreditCardSettingsPage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
@@ -19,6 +20,7 @@ export const CreditCardSettingsPage = ({ navigation }) => {
   const [cardHolderError, setCardHolderError] = useState(null)
   const [cvvError, setCvvError] = useState(null)
   const [expirationError, setExpirationError] = useState(null)
+  const [cardTypeError, setCardTypeError] = useState(null)
 
   async function load() {
     const card = await getCreditCard()
@@ -40,7 +42,8 @@ export const CreditCardSettingsPage = ({ navigation }) => {
       (card.cardHolder === oldCard.cardHolder &&
         card.cardNumber === oldCard.cardNumber &&
         card.cvv === oldCard.cvv &&
-        card.expiration === oldCard.expiration)
+        card.expiration === oldCard.expiration &&
+        card.type === oldCard.type)
     )
   }
 
@@ -64,12 +67,18 @@ export const CreditCardSettingsPage = ({ navigation }) => {
     setCard({ ...card, expiration: value })
   }
 
+  const updateCardType = (value: string) => {
+    setCardTypeError(null)
+    setCard({ ...card, type: value })
+  }
+
   const validateInputs = () => {
     if (
       card.cardHolder !== '' &&
       card.cardNumber !== '' &&
       card.cvv !== '' &&
-      card.expiration !== ''
+      card.expiration !== '' &&
+      card.type !== ''
     ) {
       return true
     }
@@ -90,6 +99,10 @@ export const CreditCardSettingsPage = ({ navigation }) => {
       setExpirationError('Please enter a card expiration.')
     }
 
+    if (card.type === '') {
+      setCardTypeError('Please enter a card type.')
+    }
+
     return false
   }
 
@@ -100,6 +113,7 @@ export const CreditCardSettingsPage = ({ navigation }) => {
     setCardNumberError(null)
     setCvvError(null)
     setExpirationError(null)
+    setCardTypeError(null)
 
     setCreditCard(card)
     setLoading(true)
@@ -127,6 +141,20 @@ export const CreditCardSettingsPage = ({ navigation }) => {
             placeholder="Charlie C. Card"
             onChange={updateCardHolder}
             error={cardHolderError}
+          />
+          <FormSelectInput
+            title="Card Type:"
+            value={card.type}
+            onChange={updateCardType}
+            error={cardTypeError}
+            options={[
+              'Diners',
+              'Visa',
+              'American Express',
+              'Mastercard',
+              'Discover/Novus',
+              'JCB',
+            ]}
           />
           <View style={styles.cvvContainer}>
             <FormTextInput

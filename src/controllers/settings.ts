@@ -29,6 +29,7 @@ export interface CreditCardModel {
   cardHolder: string
   expiration: string
   cvv: string
+  type: string
 }
 
 export async function getCreditCard() {

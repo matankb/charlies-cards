@@ -50,6 +50,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   const [cardHolderError, setCardHolderError] = useState(undefined)
   const [cvvError, setCvvError] = useState(undefined)
   const [expirationError, setExpirationError] = useState(undefined)
+  const [cardTypeError, setCardTypeError] = useState(undefined)
 
   const handleNextPage = () => {
     if (index === pages.length - 1) {
@@ -109,6 +110,8 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
       setCvvError={setCvvError}
       expirationError={expirationError}
       setExpirationError={setExpirationError}
+      cardTypeError={cardTypeError}
+      setCardTypeError={setCardTypeError}
       handlePrevPage={handlePrevPage}
     />,
     <RegistrationSuccess handleSubmit={handleFormSubmit} />,
