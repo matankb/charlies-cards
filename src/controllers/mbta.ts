@@ -72,50 +72,7 @@ const sharedInjectableJavascript = /* javascript */ `
   }
 `
 
-export const getStoredValueInjectableJavascript = async () => {
-  const cardInfo = await getCardInfo()
-  const mbtaUsername = cardInfo.username
-  const mbtaPassword = cardInfo.password
-  const card = cardInfo.number
-
-  return /* javascript */ `
-    (async () => {
-      ${sharedInjectableJavascript}
-
-      try {
-        const iframe = createMBTAWebsiteIframe()
-
-        const username = '${mbtaUsername}'
-        const password = '${mbtaPassword}'
-        const card = '${card}'
-
-        await navigateToCardPageAndSelectCard(iframe, username, password, card)
-        
-        // navigate to card detail page
-        getElementById(iframe, 'main_form:btnShowProduct').click()
-        await waitForIframeLoad(iframe)
-
-        // card details page
-        const table = getElementById(iframe, 'main_form:panelGroup')
-        const valueCell = table.querySelector('fieldset:nth-of-type(3) tbody tr:nth-child(1) td:nth-child(2)')
-        const value = valueCell.textContent
-        
-        handleCallback(value)
-      } catch (e) {
-        handleError(e)
-      }
-    })();
-
-    // injectJavascript requires a truthy return value
-    true;
-  `
-}
-
-export const refillInjectableJavascript = async ({
-  amount,
-}: {
-  amount: number
-}) => {
+export const refillInjectableJavascript = async (amount: number) => {
   const cardInfo = await getCardInfo()
   const mbtaUsername = cardInfo.username
   const mbtaPassword = cardInfo.password
