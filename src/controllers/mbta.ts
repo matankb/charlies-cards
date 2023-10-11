@@ -1,5 +1,4 @@
-import { getAccountId } from "./account";
-import { getCreditCard } from "./settings";
+import { getCreditCard } from './settings'
 
 const sharedInjectableJavascript = /* javascript */ `
   const MBTA_WEBSITE_URL = 'https://charliecard.mbta.com/CharlieCardWebProgram/pages/charlieCardCenter.jsf';
@@ -70,11 +69,11 @@ const sharedInjectableJavascript = /* javascript */ `
 
      return waitForIframeLoad(iframe)
   }
-`;
+`
 
 export const getStoredValueInjectableJavascript = async () => {
-  const mbtaUsername = await '205matan@gmail.com';
-  const mbtaPassword = await 'VQP!bwz8nuz-pwf5waz';
+  const mbtaUsername = await '205matan@gmail.com'
+  const mbtaPassword = await 'VQP!bwz8nuz-pwf5waz'
   const card = await '05-313177526'
 
   return /* javascript */ `
@@ -107,20 +106,21 @@ export const getStoredValueInjectableJavascript = async () => {
 
     // injectJavascript requires a truthy return value
     true;
-  `;
-};
+  `
+}
 
 export const refillInjectableJavascript = async (amount: number) => {
   // these will be integrated into the account/settings controller
-  const mbtaUsername = await '';
-  const mbtaPassword = await '';
+  const mbtaUsername = await ''
+  const mbtaPassword = await ''
   const card = await ''
-  
-  const creditCard = await getCreditCard();
-  const creditCardType = creditCard.cardType;
-  const creditCardNumber = creditCard.cardNumber;
-  const creditCardSecurityCode = creditCard.cvv;
-  const [creditCardExpirationMonth, creditCardExpirationYear] = creditCard.expiration.split('/');
+
+  const creditCard = await getCreditCard()
+  const creditCardType = creditCard.cardType
+  const creditCardNumber = creditCard.cardNumber
+  const creditCardSecurityCode = creditCard.cvv
+  const [creditCardExpirationMonth, creditCardExpirationYear] =
+    creditCard.expiration.split('/')
 
   return /* javascript */ `
     (async () => {
