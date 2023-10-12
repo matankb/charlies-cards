@@ -5,12 +5,14 @@ import { RegistrationSuccess } from '../components/registration/RegistrationSucc
 import PaginationDot from 'react-native-animated-pagination-dot'
 import { CharlieCard } from '../components/registration/CharlieCard'
 import { CreditCard } from '../components/registration/CreditCard'
-import { setMyCharlieCredentials } from '../controllers/account'
+import {
+  setMyCharlieCredentials,
+  setRefillThreshold,
+} from '../controllers/account'
 import {
   CreditCardModel,
   setCreditCard,
   setRefillTarget,
-  setRefillThreshold,
 } from '../controllers/settings'
 
 interface RegistrationPageProps {
@@ -48,6 +50,7 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
   const [cardHolderError, setCardHolderError] = useState(undefined)
   const [cvvError, setCvvError] = useState(undefined)
   const [expirationError, setExpirationError] = useState(undefined)
+  const [cardTypeError, setCardTypeError] = useState(undefined)
 
   const handleNextPage = () => {
     if (index === pages.length - 1) {
@@ -107,6 +110,8 @@ export const RegistrationPage: FC<RegistrationPageProps> = ({
       setCvvError={setCvvError}
       expirationError={expirationError}
       setExpirationError={setExpirationError}
+      cardTypeError={cardTypeError}
+      setCardTypeError={setCardTypeError}
       handlePrevPage={handlePrevPage}
     />,
     <RegistrationSuccess handleSubmit={handleFormSubmit} />,

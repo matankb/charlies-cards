@@ -3,16 +3,12 @@ import { BackButton } from '../components/BackButton'
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
 import { LoadingSpinner } from '../components/LoadingSpinner'
-import {
-  getRefillTarget,
-  getRefillThreshold,
-  setRefillTarget,
-  setRefillThreshold,
-} from '../controllers/settings'
+import { getRefillTarget, setRefillTarget } from '../controllers/settings'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getRefillThreshold, setRefillThreshold } from '../controllers/account'
 
 interface CardBoundary {
-  threshold: string
+  threshold: number
   target: string
 }
 

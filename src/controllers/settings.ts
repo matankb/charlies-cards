@@ -29,10 +29,13 @@ export interface CreditCardModel {
   cardHolder: string
   expiration: string
   cvv: string
+  type: string
 }
 
 export async function getCreditCard() {
-  return JSON.parse(await AsyncStorage.getItem(StorageKey.CREDIT_CARD))
+  return JSON.parse(
+    await AsyncStorage.getItem(StorageKey.CREDIT_CARD),
+  ) as CreditCardModel
 }
 
 export async function setCreditCard(card: CreditCardModel) {
@@ -45,14 +48,6 @@ export async function getRefillTarget() {
 
 export async function setRefillTarget(limit: number) {
   return AsyncStorage.setItem(StorageKey.REFILL_TARGET, limit.toString())
-}
-
-export async function getRefillThreshold() {
-  return AsyncStorage.getItem(StorageKey.REFILL_THRESHOLD)
-}
-
-export async function setRefillThreshold(threshold: number) {
-  return AsyncStorage.setItem(StorageKey.REFILL_THRESHOLD, threshold.toString())
 }
 
 export async function getIsRegistered() {

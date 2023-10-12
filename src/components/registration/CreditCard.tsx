@@ -4,6 +4,7 @@ import { Button } from '../Button'
 import { FormTextInput } from '../form/FormTextInput'
 import { CreditCardModel } from '../../controllers/settings'
 import { RegisterFlowTitle } from '../form/RegisterFlowTitle'
+import { FormSelectInput } from '../form/FormSelectInput'
 
 interface CreditCardProps {
   onSubmit: () => void
@@ -17,6 +18,8 @@ interface CreditCardProps {
   setCvvError: (v: string) => void
   expirationError: string
   setExpirationError: (v: string) => void
+  cardTypeError: string
+  setCardTypeError: (v: string) => void
   handlePrevPage: () => void
 }
 
@@ -32,6 +35,8 @@ export const CreditCard: FC<CreditCardProps> = ({
   setCvvError,
   expirationError,
   setExpirationError,
+  cardTypeError,
+  setCardTypeError,
   handlePrevPage,
 }) => {
   const updateCardNumber = (value: string) => {
@@ -54,12 +59,18 @@ export const CreditCard: FC<CreditCardProps> = ({
     setCard({ ...card, expiration: value })
   }
 
+  const updateCardType = (value: string) => {
+    setCardTypeError(undefined)
+    setCard({ ...card, type: value })
+  }
+
   const validateInputs = () => {
     if (
       card.cardHolder !== '' &&
       card.cardNumber !== '' &&
       card.cvv !== '' &&
-      card.expiration !== ''
+      card.expiration !== '' &&
+      card.type !== ''
     )
       return true
 
@@ -77,6 +88,10 @@ export const CreditCard: FC<CreditCardProps> = ({
 
     if (card.expiration === '') {
       setExpirationError('Please enter a card expiration.')
+    }
+
+    if (card.type === '') {
+      setCardTypeError('Please enter a card type.')
     }
 
     return false
@@ -111,6 +126,20 @@ export const CreditCard: FC<CreditCardProps> = ({
           placeholder="Charlie C. Card"
           onChange={updateCardHolder}
           error={cardHolderError}
+        />
+        <FormSelectInput
+          title="Card Type:"
+          value={card.type}
+          onChange={updateCardType}
+          error={cardTypeError}
+          options={[
+            'Diners',
+            'Visa',
+            'American Express',
+            'Mastercard',
+            'Discover/Novus',
+            'JCB',
+          ]}
         />
         <View className="flex flex-row" style={{ gap: 50 }}>
           <FormTextInput

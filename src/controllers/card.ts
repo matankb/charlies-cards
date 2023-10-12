@@ -1,14 +1,4 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  getFirestore,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore'
-
-import { FirebaseTable, app } from './firebase'
+import { callFirebaseFunction } from './firebase'
 import { getAccountId } from './account'
 
 export interface Transaction {
@@ -16,22 +6,26 @@ export interface Transaction {
   amount: number
 }
 
+export async function getCardValue() {
+  const id = await getAccountId()
+  const { value } = await callFirebaseFunction('getCardValue', {
+    id,
+  })
+
+  return value
+}
+
 export async function getTransactionHistory() {
   const accountId = await getAccountId()
+  const transactionDocs = await callFirebaseFunction('getTransactionHistory', {
+    id: accountId,
+  })
 
-  const db = getFirestore(app)
-  const transactionQuery = query(
-    collection(db, FirebaseTable.TRANSACTIONS),
-    where('accountId', '==', accountId),
-  )
-  const transactionDocs = await getDocs(transactionQuery)
-
-  const transactions = transactionDocs.docs
+  const transactions = transactionDocs
     .map((transaction) => {
-      const data = transaction.data()
       return {
-        date: data.date.toDate(),
-        amount: data.amount,
+        date: new Date(transaction.date),
+        amount: transaction.amount,
       }
     })
     .sort((a, b) => b.date - a.date)
@@ -42,14 +36,10 @@ export async function getTransactionHistory() {
 export async function addTransaction(amount: number) {
   const accountId = await getAccountId()
   const transaction = {
-    date: new Date(),
+    accountId,
+    date: new Date().getTime(),
     amount: amount,
   }
 
-  const db = getFirestore(app)
-  const transactionsRef = collection(db, FirebaseTable.TRANSACTIONS)
-  await setDoc(doc(transactionsRef), {
-    ...transaction,
-    accountId: accountId,
-  })
+  return callFirebaseFunction('addTransaction', transaction)
 }
