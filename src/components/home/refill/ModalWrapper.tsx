@@ -6,6 +6,7 @@ import { RefillModal } from './RefillModal'
 interface ModalWrapperProps {
   showModal: boolean
   cardName: string
+  refilling: boolean
   cardAmount: number
   handleDismiss: () => void
   handleSubmitRefill: (amounts: number[]) => Promise<void>
@@ -17,6 +18,7 @@ export const ModalWrapper: FC<ModalWrapperProps> = ({
   cardAmount,
   handleDismiss,
   handleSubmitRefill,
+  refilling,
 }) => {
   return (
     <>
@@ -35,6 +37,7 @@ export const ModalWrapper: FC<ModalWrapperProps> = ({
           handleRefill={handleSubmitRefill}
           cardName={cardName}
           currentAmount={cardAmount}
+          refilling={refilling}
         />
       </Modal>
       <View style={styles.modalBackground} />

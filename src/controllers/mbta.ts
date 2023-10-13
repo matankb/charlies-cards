@@ -9,7 +9,7 @@ const sharedInjectableJavascript = /* javascript */ `
   const createMBTAWebsiteIframe = () => {
     const iframe = document.createElement('iframe')
     iframe.src = MBTA_WEBSITE_URL
-    iframe.style = 'width: 1000px; height: 1000px;'
+    iframe.style = 'width: 1000px; height: 1000px; position:absolute; top: 0'
     document.body.append(iframe)
     return iframe
   }
@@ -104,16 +104,15 @@ export const refillInjectableJavascript = async (amount: number) => {
         const creditCardExpirationYear = '${creditCardExpirationYear}'
 
         await navigateToCardPageAndSelectCard(iframe, username, password, card)
-
         // navigate to add value page
         getElementById(iframe, 'main_form:btnStartAddChangeProduct').click()
         await waitForIframeLoad(iframe)
-
+        
         // add value page
         const valueInput = getElementById(iframe, 'main_form:svAmount')
-        setSelectValue(valueInput, amount)
+        setSelectValueByLabel(valueInput, 'Stored Value US$ ' + amount + '.00')
         await waitForIframeLoad(iframe)
-
+        
         getElementById(iframe, 'main_form:btnContinue').click();
         await waitForIframeLoad(iframe);
 
@@ -134,6 +133,7 @@ export const refillInjectableJavascript = async (amount: number) => {
 
         getElementById(iframe, 'main_form:confirmBtn').click();
         await waitForIframeLoad(iframe);
+
         handleCallback();
       } catch (e) {
         handleError(e);

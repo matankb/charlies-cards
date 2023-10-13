@@ -7,6 +7,7 @@ export const LoadingSpinner = () => {
     <View>
       <AnimatedLoader
         visible
+        zIndex={100}
         overlayColor="rgba(0,0,0,0.5)"
         source={textLoading}
         animationStyle={{ width: 100, height: 100 }}

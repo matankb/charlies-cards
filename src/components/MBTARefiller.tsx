@@ -48,7 +48,7 @@ export const MbtaRefiller: FC<MBTARefillerProps> = ({
         ref={webviewRef}
         onMessage={handleMessage}
         onLoadEnd={() => setWebviewLoaded(true)}
-        style={{ height: 500, width: 500 }}
+        style={{ height: 0, width: 0 }}
       />
     </View>
   )

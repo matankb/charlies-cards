@@ -71,8 +71,6 @@ export const getCardValue = onCall(async (request) => {
   const user = (await userReference.get()).data() as User
   const { username, password, card } = user
 
-  console.log(username, password, card)
-
   const value = await fetchCardValue(username, password, card)
   return { value }
 })
