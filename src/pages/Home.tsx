@@ -1,4 +1,11 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { BalanceDisplay } from '../components/home/BalanceDisplay'
 import { TransactionDisplay } from '../components/home/TransactionDisplay'
@@ -15,10 +22,13 @@ import { LoadingSpinner } from '../components/LoadingSpinner'
 import { ScreenName } from '../components/navigators/ScreenName'
 import { STANDARD_PRESSED_WHITE } from '../utils/constants'
 import { ModalWrapper } from '../components/home/refill/ModalWrapper'
+import { MbtaRefiller } from '../components/MBTARefiller'
 
 export const HomePage = ({ navigation }) => {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
+  const [refilling, setRefilling] = useState(false)
+  const [refillAmount, setRefillAmount] = useState<number>(null)
 
   const [transactions, setTransactions] = useState<Transaction[]>(null)
   const [card, setCard] = useState<CharlieCard>(null)
@@ -53,13 +63,21 @@ export const HomePage = ({ navigation }) => {
   }
 
   const handleSubmitRefill = async (amounts: number[]) => {
-    amounts.forEach((t) => {
-      console.log(`sending refill for $${t}`) // TODO: connect to actual refill
-      addTransaction(t)
-    })
+    setRefillAmount(amounts[0])
+    setRefilling(true)
+  }
 
+  const handleRefillComplete = async () => {
+    addTransaction(refillAmount)
+    setRefilling(false)
+    setRefillAmount(null)
     setShowModal(false)
     fetchData()
+  }
+
+  const handleRefillError = async (error: string) => {
+    setRefilling(false)
+    Alert.alert('There was a problem refilling your card.', error)
   }
 
   const handleDismiss = () => {
@@ -117,8 +135,16 @@ export const HomePage = ({ navigation }) => {
           cardAmount={cardAmount}
           cardName={card.name}
           handleDismiss={handleDismiss}
+          refilling={refilling}
           handleSubmitRefill={handleSubmitRefill}
           showModal={showModal}
+        />
+      )}
+      {refilling && (
+        <MbtaRefiller
+          amount={refillAmount}
+          callback={handleRefillComplete}
+          onError={handleRefillError}
         />
       )}
     </>

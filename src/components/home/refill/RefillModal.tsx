@@ -25,6 +25,7 @@ interface RefillModalPropsimport {
   handleRefill: (amount: number[]) => void
   cardName: string
   currentAmount: number
+  refilling: boolean
 }
 
 export const RefillModal: FC<RefillModalPropsimport> = ({
@@ -32,6 +33,7 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
   handleRefill,
   cardName,
   currentAmount,
+  refilling,
 }) => {
   const [loading, setLoading] = useState(true)
   const [targetAmount, setTargetAmount] = useState<number>(null)
@@ -127,14 +129,23 @@ export const RefillModal: FC<RefillModalPropsimport> = ({
             <Text style={styles.billingSummaryText}>
               You will be billed {telegraphedTransactions()}
             </Text>
-            <Button
-              text={`Pay $${calculatedAddition()}`}
-              onPress={() => handleRefill(transactions)}
-              buttonColor={STANDARD_CHARLIE_GREEN}
-              pressedButtonColor="#336B3C"
-              disabledButtonColor="#65B772"
-              disabled={calculatedAddition() === 0}
-            />
+            {!refilling ? (
+              <Button
+                text={`Pay $${calculatedAddition()}`}
+                onPress={() => handleRefill(transactions)}
+                buttonColor={STANDARD_CHARLIE_GREEN}
+                pressedButtonColor="#336B3C"
+                disabledButtonColor="#65B772"
+                disabled={calculatedAddition() === 0}
+              />
+            ) : (
+              <Button
+                text="Refilling..."
+                onPress={() => {}}
+                disabled
+                disabledButtonColor="#65B772"
+              />
+            )}
           </View>
         </>
       )}
